@@ -6,12 +6,13 @@ import java.net.*;
 public class Cliente extends Thread {
 
     private Socket sck;
-    public String nick = "Alvaro";
+    public String email, nick, password;
+    public int partidasJugadas, partidasGanadas, partidasPerdidas;
     
     public static void main (String args[]) throws Exception{
         
         Cliente c = new Cliente();
-        c.sck = new Socket ("127.0.0.1", 5665);
+        c.sck = new Socket ("127.0.0.1", 5666);
         c.start(); // Sigue funcionando...
         
         
@@ -21,6 +22,8 @@ public class Cliente extends Thread {
         while (true){
             System.out.println("Mensaje: ");
             String elMensaje = br.readLine();
+            
+            
             
             //Lo que envía el cliente
             c.sck.getOutputStream().write(elMensaje.getBytes());
@@ -50,6 +53,20 @@ public class Cliente extends Thread {
         } catch (Exception ex) {
             
         }
+    }
+    
+    public static boolean hacerLogin (String email, String password) throws IOException {
+        boolean acceso = false;
+        byte[] buffer = new byte[1024];
+        
+        Cliente c = new Cliente();
+        c.sck = new Socket ("127.0.0.1", 5665);
+        
+        String mensaje = "LOGIN" + "#" + email + "#" + password + "#";
+        c.sck.getOutputStream().write(mensaje.getBytes());
+        
+        //
+        return acceso;
     }
     
 }
