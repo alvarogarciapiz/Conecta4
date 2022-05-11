@@ -6,7 +6,7 @@ import java.net.*;
 public class Cliente extends Thread {
 
     private Socket sck;
-    public String email, nick, password;
+    public static String email, nick="Alvaro", password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
     
     public static void main (String args[]) throws Exception{
@@ -22,8 +22,7 @@ public class Cliente extends Thread {
         while (true){
             System.out.println("Mensaje: ");
             String elMensaje = br.readLine();
-            
-            
+            elMensaje = nick + "#" + elMensaje;
             
             //Lo que envía el cliente
             c.sck.getOutputStream().write(elMensaje.getBytes());
