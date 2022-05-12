@@ -1,7 +1,5 @@
 package com.mycompany.servidordifusion;
 
-//--> El cliente que  se conecta al servidor
-
 import java.io.*;
 import java.net.*;
 

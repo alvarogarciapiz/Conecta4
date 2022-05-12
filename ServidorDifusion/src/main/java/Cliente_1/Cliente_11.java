@@ -1,10 +1,10 @@
-package com.mycompany.cliente;
+package Cliente_1;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Cliente extends Thread {
+public class Cliente_11 extends Thread {
 
     private Socket sck;
     public static String email, nick, password;
@@ -13,7 +13,7 @@ public class Cliente extends Thread {
     
     public static void main (String args[]) throws Exception{
         
-        Cliente c = new Cliente();
+        Cliente_11 c = new Cliente_11();
         c.sck = new Socket ("127.0.0.1", 5665);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
         c.start(); // Sigue funcionando...
@@ -64,7 +64,7 @@ public class Cliente extends Thread {
         boolean acceso = false;
         byte[] buffer = new byte[1024];
         
-        Cliente c = new Cliente();
+        Cliente_11 c = new Cliente_11();
         c.sck = new Socket ("127.0.0.1", 5665);
         
         String mensaje = "LOGIN" + "#" + email + "#" + password + "#";

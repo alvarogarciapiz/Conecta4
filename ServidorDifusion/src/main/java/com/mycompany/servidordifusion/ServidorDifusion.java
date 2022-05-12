@@ -10,12 +10,10 @@ public class ServidorDifusion implements Runnable {
     private ServerSocket servidor;
     public static ArrayList<ClienteDifusion> listaUsuarios = new ArrayList<>(); 
     private Thread t;
-    
-    
-    
+    public static int cont=0;
     
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5666);
+        servidor = new ServerSocket(5665);
         t = new Thread(this);
         t.start();
     }
@@ -32,34 +30,36 @@ public class ServidorDifusion implements Runnable {
         while (true) {
         System.out.println("Esperando clientes...");
         Socket sck = servidor.accept();
+        
         //--> Aquí tengo el usuario conectado
-        System.out.println("Un cliente conectado...");
+        System.out.println(listaUsuarios.size()+1 + " clientes conectados...");
+        
         ClienteDifusion unCliente = new ClienteDifusion(sck);
         listaUsuarios.add(unCliente); //El número en listausuarios = nº usuarios conectados
         }
     }
     
     public static void difusionMensaje(byte[] mensaje){
-        
-        //Borrar luego
-        ClienteDifusion c1 = new ClienteDifusion();
-        c1.setNick("Alvaro");
-        listaUsuarios.add(c1);
+    
         
             try{
+                               
                String msg = new String(mensaje);
                String [] partesmensaje = msg.split("#");
                String respuesta;
-               int posicionCliente = buscarCliente(partesmensaje[0]);
-               ClienteDifusion user = listaUsuarios.get(posicionCliente-1);
                Boolean error = false;
-              
-                if (user==null) {
-                    partesmensaje[1] = "";
-                }
-
+               
+               if (partesmensaje[1].equals("START")) {
+                        listaUsuarios.get(cont).setNick(partesmensaje[0]); 
+                        cont++;
+                } else {
+                   int posicionCliente = buscarCliente(partesmensaje[0]);
+                   ClienteDifusion user = listaUsuarios.get(posicionCliente);
+               
+               
                 // VALIDADOR
                 switch (partesmensaje[1]) {
+                    
                     case "REGISTRO": // #NICK#REGISTRO#EMAIL#NICK#PASSWORD# ----------------------------------    
                         if (partesmensaje.length!=5) {
                             respuesta = "#REGISTRO#NOK#";
@@ -97,6 +97,7 @@ public class ServidorDifusion implements Runnable {
                         
                         else if (RegistroyLogin.login.loginUsuario(partesmensaje[2], partesmensaje[3])==true) {
                             respuesta = "#LOGIN#OK#";
+                            //Aquí como el login es correcto deberé iniciar las variables del objeto con lo que tengo almacenado en el fichero
                             user.sendMessage(respuesta.getBytes());
                             
                         } else {
@@ -121,7 +122,7 @@ public class ServidorDifusion implements Runnable {
                         respuesta = "ERROR";
                         user.sendMessage(respuesta.getBytes());         
                     }
-                         
+            }         
                 
             } catch (Exception e){
                     System.out.println("Error de difusion: " + e.toString());
@@ -134,8 +135,11 @@ public class ServidorDifusion implements Runnable {
         int i=0;
 
         for (i = 0; i <= listaUsuarios.size(); i++) {
+            System.out.println("BUSCANDO CLIENTE:");
+                System.out.println("El " + i + " es: " + listaUsuarios.get(i).nick);
             if (nick.equals(listaUsuarios.get(i).nick)) {
-                user = listaUsuarios.get(i);
+                System.out.println("SE ENCUENTRA");
+                user = listaUsuarios.get(i);                
                 return i;
             }
         }
