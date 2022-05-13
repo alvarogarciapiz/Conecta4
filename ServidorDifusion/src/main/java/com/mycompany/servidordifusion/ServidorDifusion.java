@@ -41,7 +41,6 @@ public class ServidorDifusion implements Runnable {
     
     public static void difusionMensaje(byte[] mensaje){
     
-        
             try{
                                
                String msg = new String(mensaje);
@@ -52,6 +51,12 @@ public class ServidorDifusion implements Runnable {
                if (partesmensaje[1].equals("START")) {
                         listaUsuarios.get(cont).setNick(partesmensaje[0]); 
                         cont++;
+                        
+                        int posicionCliente = buscarCliente(partesmensaje[0]);
+                        ClienteDifusion user = listaUsuarios.get(posicionCliente);
+                        
+                        respuesta = "#START#OK#";
+                            user.sendMessage(respuesta.getBytes());
                 } else {
                    int posicionCliente = buscarCliente(partesmensaje[0]);
                    ClienteDifusion user = listaUsuarios.get(posicionCliente);
@@ -95,9 +100,18 @@ public class ServidorDifusion implements Runnable {
                             user.sendMessage(respuesta.getBytes());
                         }
                         
-                        else if (RegistroyLogin.login.loginUsuario(partesmensaje[2], partesmensaje[3])==true) {
-                            respuesta = "#LOGIN#OK#";
+                        else if (RegistroyLogin.login.loginUsuario(partesmensaje[2], partesmensaje[3])==true) {      
                             //Aquí como el login es correcto deberé iniciar las variables del objeto con lo que tengo almacenado en el fichero
+                            System.out.println("Antes del hacerlogin");
+                            hacerLogin(partesmensaje[0], partesmensaje[2], partesmensaje[3]); //Se hace login el clienteDifusion
+                            System.out.println("Después del hacerlogin");
+                            String nick = Ficheros.Ficheros.buscarNickPorEmail(partesmensaje[2]);
+                            System.out.println("El nick es: " + nick);
+                            respuesta = "LOGIN#OK#" + nick + "#";                         
+                            
+                            int posNueva= buscarCliente(nick);
+                            user = listaUsuarios.get(posNueva);
+                            
                             user.sendMessage(respuesta.getBytes());
                             
                         } else {
@@ -116,7 +130,15 @@ public class ServidorDifusion implements Runnable {
                             unCliente.sendMessage(mensaje);
                         }  
                             
-                        break;    
+                        break;
+                        
+                    case "DISPONIBLES" : //Se devuelven todos los usuarios disponibles
+                        respuesta = "";
+                        for (int i = 0; i < listaUsuarios.size(); i++) {
+                            respuesta = respuesta + listaUsuarios.get(i).nick + "#";
+                        }
+                        user.sendMessage(respuesta.getBytes());
+                        break;
      
                     default:
                         respuesta = "ERROR";
@@ -146,5 +168,23 @@ public class ServidorDifusion implements Runnable {
         
         return i;
     }
+    
+    public static void hacerLogin (String nick ,String email, String password) {
+        System.out.println(nick + email + password);
+        
+        for (int i = 0; i < listaUsuarios.size(); i++) {
+            if (nick.equals(listaUsuarios.get(i).nick)) {
+                String nickNuevo = Ficheros.Ficheros.buscarNickPorEmail(email);
+                listaUsuarios.get(i).setEmail(email);
+                listaUsuarios.get(i).setPassword(password);
+                listaUsuarios.get(i).setNick(nickNuevo);
+                listaUsuarios.get(i).setPartidasJugadas(Ficheros.Ficheros.obtenerPartidasJugadas(nickNuevo));
+                listaUsuarios.get(i).setPartidasGanadas(Ficheros.Ficheros.obtenerPartidasGanadas(nickNuevo));
+                listaUsuarios.get(i).setPartidasPerdidas(Ficheros.Ficheros.obtenerPartidasPerdidas(nickNuevo));
+            }
+        }
+        
+    }
+
     
 }

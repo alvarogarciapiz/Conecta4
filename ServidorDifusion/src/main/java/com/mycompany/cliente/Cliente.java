@@ -53,7 +53,9 @@ public class Cliente extends Thread {
                     nb = is.read(buffer);
                     baos.write(buffer, 0, nb);
                 } while (is.available()>0);
-                System.out.println("\tRecibido. > "+ new String (baos.toByteArray()));
+                String mensajeRecibido = new String(baos.toByteArray());               
+                System.out.println("\tRecibido. > "+ mensajeRecibido);
+                gestorRespuestas(mensajeRecibido);
             }
         } catch (Exception ex) {
             
@@ -80,5 +82,20 @@ public class Cliente extends Thread {
         int RandId = rand.nextInt(50000);
         String id = Integer.toString(RandId);
         return id;
+    }
+    
+    public static void gestorRespuestas (String mensaje) {     //  "#LOGIN#OK#"  + nick  + "#"; 
+        String [] partesMensaje = mensaje.split("#");
+        
+        switch (partesMensaje[0]) {
+            case "LOGIN":
+                if (partesMensaje[1].equals("OK")) {
+                    nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
+                }                             
+                break;
+                
+            default:
+                System.out.println(" ");
+        }
     }
 }

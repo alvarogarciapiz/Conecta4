@@ -182,4 +182,152 @@ public class Ficheros {
       }
     }
     
+    public static String buscarNickPorEmail(String email){
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    String nick = "ERROR";
+
+      try {
+         archivo = new File ("datosUsuarios.dat");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         //Lectura del fichero
+         String linea;
+         
+         while((linea=br.readLine())!=null){
+            String linea2=linea;
+            String[] parts = linea2.split("=");
+             if (parts[0].equals(email)) {
+                 nick = parts[1];
+                 return nick;
+             }
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+      }
+      return nick;
+    }
+    
+    public static int obtenerPartidasJugadas (String nick){
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    int partidas = 0;
+
+      try {
+         archivo = new File ("datosUsuarios.dat");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         //Lectura del fichero
+         String linea;
+         
+         while((linea=br.readLine())!=null){
+            String linea2=linea;
+            String[] parts = linea2.split("=");
+             if (parts[1].equals(nick)) {
+                 partidas = Integer.parseInt(parts[3]);
+                 return partidas;
+             }
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+      }
+      return partidas;
+    }
+    
+    public static int obtenerPartidasGanadas (String nick){
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    int partidas = 0;
+
+      try {
+         archivo = new File ("datosUsuarios.dat");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         //Lectura del fichero
+         String linea;
+         
+         while((linea=br.readLine())!=null){
+            String linea2=linea;
+            String[] parts = linea2.split("=");
+             if (parts[1].equals(nick)) {
+                 partidas = Integer.parseInt(parts[4]);
+                 return partidas;
+             }
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+      }
+      return partidas;
+    }
+    
+    public static int obtenerPartidasPerdidas (String nick){
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    int partidas = 0;
+
+      try {
+         archivo = new File ("datosUsuarios.dat");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         //Lectura del fichero
+         String linea;
+         
+         while((linea=br.readLine())!=null){
+            String linea2=linea;
+            String[] parts = linea2.split("=");
+             if (parts[1].equals(nick)) {
+                 partidas = Integer.parseInt(parts[5]);
+                 return partidas;
+             }
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+      }
+      return partidas;
+    }
+    
 }
