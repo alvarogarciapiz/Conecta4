@@ -132,12 +132,43 @@ public class ServidorDifusion implements Runnable {
                             
                         break;
                         
-                    case "DISPONIBLES" : //Se devuelven todos los usuarios disponibles
+                    case "DISPONIBLES": //Se devuelven todos los usuarios disponibles
                         respuesta = "";
                         for (int i = 0; i < listaUsuarios.size(); i++) {
                             respuesta = respuesta + listaUsuarios.get(i).nick + "#";
                         }
                         user.sendMessage(respuesta.getBytes());
+                        break;
+                        
+                    
+                    case "RETAR": // nickOrigen#RETAR#nickDestino#
+                        String nickOrigen = partesmensaje[0];
+                        String nickDestino = partesmensaje[2];
+                        
+                        int posicionNickDestino = buscarCliente(nickDestino);
+                        user = listaUsuarios.get(posicionNickDestino);
+                        
+                        respuesta = "TERETAN#" + nickOrigen + "#";
+                        user.sendMessage(respuesta.getBytes());
+                        
+                        break;
+                    
+                    case "RESPUESTARETO": //nickOrigen#RESPUESTARETO#SI/NO#nickDestino#
+                        int posicionDest = buscarCliente(partesmensaje[3]);
+                        user = listaUsuarios.get(posicionDest);
+                        
+                        if (partesmensaje[2].equals("NO")) { //No se comienza la partida
+                            respuesta =  "PARTIDA#SI#" + partesmensaje[3] + "#";
+                            user.sendMessage(respuesta.getBytes());
+                            
+                            
+                            //AQUI HA DE COMENZAR LA PARTIDA
+                            
+                        } else if(partesmensaje[2].equals("SI")) { //Se comienza la partida
+                            respuesta =  "PARTIDA#NO#" + partesmensaje[3] + "#";
+                            user.sendMessage(respuesta.getBytes());
+                        }
+                        
                         break;
      
                     default:

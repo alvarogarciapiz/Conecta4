@@ -1,16 +1,16 @@
-package com.mycompany.cliente;
+package Cliente_1;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Cliente extends Thread {
+public class Cliente2 extends Thread {
 
     public static Socket sck;
     public static String email, nick, password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
     boolean login = false;
-    public static Cliente c = new Cliente();
+    public static Cliente2 c = new Cliente2();
     
     public static void main (String args[]) throws Exception{
         
@@ -67,7 +67,7 @@ public class Cliente extends Thread {
         boolean acceso = false;
         byte[] buffer = new byte[1024];
         
-        Cliente c = new Cliente();
+        Cliente2 c = new Cliente2();
         c.sck = new Socket ("127.0.0.1", 5665);
         
         String mensaje = "LOGIN" + "#" + email + "#" + password + "#";
@@ -103,6 +103,7 @@ public class Cliente extends Thread {
                 int seleccion = sc.nextInt();
                 
                     if (seleccion==0) {
+
                         String respuesta = nick + "#RESPUESTARETO#NO#" + partesMensaje[1] + "#";
                         c.sck.getOutputStream().write(respuesta.getBytes());
                     } else if (seleccion==1){
@@ -119,7 +120,7 @@ public class Cliente extends Thread {
                     System.out.println("El usuario " + nombreUser + " NO aceptó tu reto.");
                 }
                 
-                break;
+                break;    
                 
             default:
                 System.out.println(" ");
