@@ -99,16 +99,9 @@ public class Cliente extends Thread {
                 
             case "TERETAN":
                 System.out.println(partesMensaje[1] + " te quiere retar");
-                System.out.println("¿Aceptas su desafío? \n Introduce 0 para denegarlo y 1 para aceptarlo");
-                int seleccion = sc.nextInt();
-                
-                    if (seleccion==0) {
-                        String respuesta = nick + "#RESPUESTARETO#NO#" + partesMensaje[1] + "#";
-                        c.sck.getOutputStream().write(respuesta.getBytes());
-                    } else if (seleccion==1){
-                        String respuesta = nick + "#RESPUESTARETO#SI#" + partesMensaje[1] + "#";
-                        c.sck.getOutputStream().write(respuesta.getBytes());
-                    }
+                System.out.println("¿Aceptas su desafío? introduce lo asociado");
+                System.out.println("SI -->  RESPUESTARETO#NO#" + partesMensaje[1] + "#");
+                System.out.println("NO -->  RESPUESTARETO#SI#" + partesMensaje[1] + "#");
                 break;
                 
             case "PARTIDA":

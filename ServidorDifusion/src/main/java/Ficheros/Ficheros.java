@@ -124,7 +124,7 @@ public class Ficheros {
     }
     
     
-    public static void escribirDatosUsuariosFicheros(String user, String pass, String mail){
+    public static void escribirDatosUsuariosFicheros (String user, String pass, String mail){
         FileWriter fichero = null;
         PrintWriter pw = null;
         try

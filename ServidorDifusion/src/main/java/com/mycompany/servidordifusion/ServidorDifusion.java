@@ -3,12 +3,14 @@ package com.mycompany.servidordifusion;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import Partidas.Partida;
 import com.mycompany.servidordifusion.ClienteDifusion;
 
 public class ServidorDifusion implements Runnable {
     
     private ServerSocket servidor;
-    public static ArrayList<ClienteDifusion> listaUsuarios = new ArrayList<>(); 
+    public static ArrayList<ClienteDifusion> listaUsuarios = new ArrayList<>();
+    public static ArrayList<Partida> listaPartidas = new ArrayList<>();
     private Thread t;
     public static int cont=0;
     
@@ -102,11 +104,8 @@ public class ServidorDifusion implements Runnable {
                         
                         else if (RegistroyLogin.login.loginUsuario(partesmensaje[2], partesmensaje[3])==true) {      
                             //Aquí como el login es correcto deberé iniciar las variables del objeto con lo que tengo almacenado en el fichero
-                            System.out.println("Antes del hacerlogin");
                             hacerLogin(partesmensaje[0], partesmensaje[2], partesmensaje[3]); //Se hace login el clienteDifusion
-                            System.out.println("Después del hacerlogin");
                             String nick = Ficheros.Ficheros.buscarNickPorEmail(partesmensaje[2]);
-                            System.out.println("El nick es: " + nick);
                             respuesta = "LOGIN#OK#" + nick + "#";                         
                             
                             int posNueva= buscarCliente(nick);
@@ -135,7 +134,9 @@ public class ServidorDifusion implements Runnable {
                     case "DISPONIBLES": //Se devuelven todos los usuarios disponibles
                         respuesta = "";
                         for (int i = 0; i < listaUsuarios.size(); i++) {
-                            respuesta = respuesta + listaUsuarios.get(i).nick + "#";
+                            if (!partesmensaje[0].equals(listaUsuarios.get(i).nick)) {
+                                respuesta = respuesta + listaUsuarios.get(i).nick + "#";
+                            }                            
                         }
                         user.sendMessage(respuesta.getBytes());
                         break;
@@ -158,15 +159,14 @@ public class ServidorDifusion implements Runnable {
                         user = listaUsuarios.get(posicionDest);
                         
                         if (partesmensaje[2].equals("NO")) { //No se comienza la partida
+                            respuesta =  "PARTIDA#NO#" + partesmensaje[3] + "#";
+                            user.sendMessage(respuesta.getBytes());
+                            
+                        } else if(partesmensaje[2].equals("SI")) { //Se comienza la partida
                             respuesta =  "PARTIDA#SI#" + partesmensaje[3] + "#";
                             user.sendMessage(respuesta.getBytes());
                             
-                            
-                            //AQUI HA DE COMENZAR LA PARTIDA
-                            
-                        } else if(partesmensaje[2].equals("SI")) { //Se comienza la partida
-                            respuesta =  "PARTIDA#NO#" + partesmensaje[3] + "#";
-                            user.sendMessage(respuesta.getBytes());
+                            registrarPartida(partesmensaje[0], partesmensaje[3]);
                         }
                         
                         break;
@@ -187,11 +187,8 @@ public class ServidorDifusion implements Runnable {
         ClienteDifusion user = null;
         int i=0;
 
-        for (i = 0; i <= listaUsuarios.size(); i++) {
-            System.out.println("BUSCANDO CLIENTE:");
-                System.out.println("El " + i + " es: " + listaUsuarios.get(i).nick);
+        for (i = 0; i < listaUsuarios.size(); i++) {
             if (nick.equals(listaUsuarios.get(i).nick)) {
-                System.out.println("SE ENCUENTRA");
                 user = listaUsuarios.get(i);                
                 return i;
             }
@@ -201,7 +198,6 @@ public class ServidorDifusion implements Runnable {
     }
     
     public static void hacerLogin (String nick ,String email, String password) {
-        System.out.println(nick + email + password);
         
         for (int i = 0; i < listaUsuarios.size(); i++) {
             if (nick.equals(listaUsuarios.get(i).nick)) {
@@ -213,8 +209,27 @@ public class ServidorDifusion implements Runnable {
                 listaUsuarios.get(i).setPartidasGanadas(Ficheros.Ficheros.obtenerPartidasGanadas(nickNuevo));
                 listaUsuarios.get(i).setPartidasPerdidas(Ficheros.Ficheros.obtenerPartidasPerdidas(nickNuevo));
             }
-        }
+        }   
+    }
+    
+    public static void registrarPartida (String usuario1, String usuario2) {
+        Partida p1 = new Partida();
+        p1.setID(Partida.solicitarIDPartida());
+        p1.setUsuario1(usuario1);
+        p1.setUsuario2(usuario2);
         
+        listaPartidas.add(p1);
+    }
+    
+    public static void registrarMovimiento (String id, String movimiento) {
+        
+        for (int i = 0; i < listaPartidas.size(); i++) {
+            if (listaPartidas.get(i).getID()==Integer.parseInt(id)) {
+                
+                String cadena = movimiento + "#";
+                listaPartidas.get(i).getMovimientos().add(cadena);
+            }
+        }  
     }
 
     
