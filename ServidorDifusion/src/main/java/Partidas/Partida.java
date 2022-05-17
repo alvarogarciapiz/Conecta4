@@ -6,6 +6,7 @@ public class Partida {
     private String usuario1;
     private String usuario2;
     private ArrayList<String> movimientos = new ArrayList<String>();
+    public static Tablero tablero = new Tablero();
     private String ganador;
     private int ID;
     
@@ -17,6 +18,7 @@ public class Partida {
     */
 
     public Partida() {
+        tablero = new Tablero();
     }
 
     public Partida(String usuario1, String usuario2, ArrayList<String> movimientos, String ganador, int ID) {
@@ -71,5 +73,13 @@ public class Partida {
 
     public void setMovimientos(ArrayList<String> movimientos) {
         this.movimientos = movimientos;
+    }
+
+    public static Tablero getTablero() {
+        return tablero;
+    }
+
+    public static void setTablero(Tablero aTablero) {
+        tablero = aTablero;
     }
 }

@@ -1,9 +1,9 @@
 package Ficheros;
 
-import com.mycompany.servidordifusion.ClienteDifusion;
-import com.mycompany.servidordifusion.ClienteDifusion;
-import com.mycompany.servidordifusion.Principal;
-import com.mycompany.servidordifusion.ServidorDifusion;
+import Servidor.ClienteDifusion;
+import Servidor.ClienteDifusion;
+import Servidor.Principal;
+import Servidor.ServidorDifusion;
 import java.io.*;
 
 public class Ficheros {
