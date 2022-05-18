@@ -3,12 +3,13 @@ package Partidas;
 import java.util.ArrayList;
 
 public class Partida {
-    private String usuario1;
-    private String usuario2;
-    private ArrayList<String> movimientos = new ArrayList<String>();
+    public String usuario1;
+    public String usuario2;
+    public ArrayList<String> movimientos = new ArrayList<String>();
     public static Tablero tablero = new Tablero();
-    private String ganador;
-    private int ID;
+    public String ganador;
+    public int ID;
+    public static String turno;
     
     /* Cuando se inicia una nueva partida será necesario conocer los dos usuarios
     que juegan así como un registro de los movimientos almacenados en un array de
@@ -81,5 +82,13 @@ public class Partida {
 
     public static void setTablero(Tablero aTablero) {
         tablero = aTablero;
+    }
+
+    public static String getTurno() {
+        return turno;
+    }
+
+    public static void setTurno(String aTurno) {
+        turno = aTurno;
     }
 }
