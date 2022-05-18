@@ -15,7 +15,7 @@ public class Cliente2 extends Thread {
     public static void main (String args[]) throws Exception{
         
         //Cliente c = new Cliente();
-        c.sck = new Socket ("127.0.0.1", 5665);
+        c.sck = new Socket ("127.0.0.1", 5666);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
         c.start(); // Sigue funcionando...
         

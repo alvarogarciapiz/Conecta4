@@ -17,7 +17,7 @@ public class ServidorDifusion implements Runnable {
     public static int cont = 0;
 
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5665);
+        servidor = new ServerSocket(5666);
         t = new Thread(this);
         t.start();
     }
@@ -165,19 +165,23 @@ public class ServidorDifusion implements Runnable {
 
                         break;
 
-                    case "FICHA": //nickOrigen#FICHA#IDpartida#posiciónCOL#posicionFIL#
+                    case "FICHA": //nickOrigen#FICHA#IDpartida#posiciónCOL#
                         posicionDest = buscarCliente(partesmensaje[0]);
                         user = listaUsuarios.get(posicionDest);
                         Partida p = buscarPartida(partesmensaje[2]);
                         
-                        if (comprobarTurno(p, partesmensaje[0]) == true && comprobarColumnaLlena(p,partesmensaje[4]) == false) {
-                            colocarFicha(partesmensaje[2], partesmensaje[3], partesmensaje[4], partesmensaje[0]);
-                            respuesta = "FICHA#EXITO#";
-                            user.sendMessage(respuesta.getBytes());
-                            
-                        } else {
+                        if (comprobarTurno(p, partesmensaje[0]) == false) {
                             //Error
                             respuesta = "ERROR#NOTURNO#";
+                            user.sendMessage(respuesta.getBytes());
+                            
+                        } else if (comprobarColumnaLlena(p,partesmensaje[3]) == false){
+                            //Error
+                            respuesta = "ERROR#COLUMNA#";
+                            user.sendMessage(respuesta.getBytes());
+                        } else {
+                            colocarFicha(partesmensaje[2], partesmensaje[3], partesmensaje[0]);
+                            respuesta = "FICHA#EXITO#";
                             user.sendMessage(respuesta.getBytes());
                         }
                         break;
@@ -230,25 +234,15 @@ public class ServidorDifusion implements Runnable {
         p1.setTurno(usuario1);
 
         imprimirTablero(p1);
-        FicherosPartidas.nuevaPartida(usuario1, usuario2, "null", p1.getID());
-
+        // ¿? FicherosPartidas.nuevaPartida(usuario1, usuario2, "null", p1.getID());
         listaPartidas.add(p1);
     }
 
-//    public static void registrarMovimiento (String id, String movimiento) {
-//        
-//        for (int i = 0; i < listaPartidas.size(); i++) {
-//            if (listaPartidas.get(i).getID()==Integer.parseInt(id)) {
-//                
-//                String cadena = movimiento + "#";
-//                listaPartidas.get(i).getMovimientos().add(cadena);
-//            }
-//        }  
-//    }
+
     public static void imprimirTablero(Partida p1) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
-                System.out.printf("| " + p1.tablero.posiciones[i][j]);
+                System.out.printf("| " + p1.tablero.getPosiciones()[i][j]);
             }
             System.out.println("\n --------------------");
         }
@@ -269,15 +263,16 @@ public class ServidorDifusion implements Runnable {
         return p1;
     }
 
-    public static void colocarFicha(String idPartida, String movCOL, String movFIL, String user) {
+    public static void colocarFicha(String idPartida, String movCOL, String user) {
         Partida p = buscarPartida(idPartida);
 
         int col = Integer.parseInt(movCOL);
-        int fil = Integer.parseInt(movFIL);
-
-        p.tablero.posiciones[col][fil] = user.substring(0, 2); //Habría que dejar user sin el substring
-
-        FicherosPartidas.registrarMovimiento(idPartida, movCOL, movFIL);
+        int fil = determinarFila(p, col);
+        
+        p.tablero.posiciones[fil][col] = user.substring(0,2); //Aqui sería el user entero
+        
+        /* ME HE QUEDADO AQUÍ: EL TABLERO NO SE REGISTRA ENTERO, CADA VEZ QUE
+        PONGO UNA FICHA SE PONE TODO A 0 */
         
         //Actualizamos el turno al otro usuario
         if (p.getTurno().equals(p.getUsuario2())) {
@@ -286,17 +281,28 @@ public class ServidorDifusion implements Runnable {
             p.setTurno(p.getUsuario2());
         }
         
-
         imprimirTablero(p);
     }
     
-    public static boolean comprobarColumnaLlena (Partida p, String fila){
-        int fil = Integer.parseInt(fila);
-        if(!p.tablero.posiciones[fil][0].equals("0")){
+    public static boolean comprobarColumnaLlena (Partida p, String colum){
+        int col = Integer.parseInt(colum);
+        if(p.tablero.getPosiciones()[0][col].equals("0")){
             return true;
         } else {
             return false;
         }
+    }
+    
+    public static int determinarFila (Partida p, int col){
+        int fila = 0;
+        
+        for (int i = 5; i >0; i--) {
+            if (p.tablero.getPosiciones()[i][col].equals("0")) {
+                return i;
+            }
+        }
+        
+        return fila;
     }
     
     public static boolean comprobarTurno (Partida p, String nick) {
@@ -308,6 +314,12 @@ public class ServidorDifusion implements Runnable {
         }
         
         return turno;
+    }
+    
+    public static String comprobarGanador () {
+        
+        // si hay ganador --> FicherosPartidas.registrarPartida
+        return "a";
     }
 
 }

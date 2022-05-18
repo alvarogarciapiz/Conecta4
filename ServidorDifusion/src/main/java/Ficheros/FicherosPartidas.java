@@ -1,10 +1,12 @@
 package Ficheros;
 
+import Partidas.Partida;
 import java.io.*;
 import java.util.*;
 
 public class FicherosPartidas {
 
+    // Eliminar
     public static void nuevaPartida(String usuario1, String usuario2, String ganador, int ID) {
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -27,42 +29,33 @@ public class FicherosPartidas {
         }
     }
 
-    public static void registrarMovimiento(String ID, String col, String fil) {
-        File archivo = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        
-        String linea = "";
-        String columna = Correspondencias.obtenerLetra(col);
-        String movimiento = columna + fil;
-
+    
+    public static void registrarPartida(Partida p1) {
+        FileWriter fichero = null;
+        PrintWriter pw = null;
         try {
-            archivo = new File("datosPartidas.dat");
-            fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
+            fichero = new FileWriter("datosPartidas.dat", true);
+            pw = new PrintWriter(fichero);
 
-            //Lectura del fichero
-            while ((linea = br.readLine()) != null) {
-                String linea2 = linea;
-                String[] parts = linea2.split("=");
-
-                if (parts[0].equals(ID)) {
-                    linea2 = linea2 + "=" + movimiento + "=";
-                }
-
+            pw.println(Partida.ID + "=" + Partida.ganador + "=" + Partida.usuario1 + "=" + Partida.usuario2 + "=" + Partida.movimientos + "=");
+            for (int i = 0; i < Partida.movimientos.size(); i++) {
+                    pw.print(Partida.movimientos.get(i) + "=");
             }
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (null != fr) {
-                    fr.close();
+                if (null != fichero) {
+                    fichero.close();
                 }
             } catch (Exception e2) {
                 e2.printStackTrace();
             }
         }
     }
+    
 
     public static int obtenerUltimoIDPartida() {
         File archivo = null;
