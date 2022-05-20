@@ -232,8 +232,8 @@ public class ServidorDifusion implements Runnable {
         p1.usuario1 = usuario1;
         p1.usuario2 = usuario2;
         p1.setTurno(usuario1);
+        p1.tablero = new Tablero();
 
-        imprimirTablero(p1);
         // ¿? FicherosPartidas.nuevaPartida(usuario1, usuario2, "null", p1.getID());
         listaPartidas.add(p1);
     }
@@ -268,8 +268,9 @@ public class ServidorDifusion implements Runnable {
 
         int col = Integer.parseInt(movCOL);
         int fil = determinarFila(p, col);
-        
-        p.tablero.posiciones[fil][col] = user.substring(0,2); //Aqui sería el user entero
+
+  
+        p.tablero.posiciones[fil][col] = user.substring(0,2);
         
         /* ME HE QUEDADO AQUÍ: EL TABLERO NO SE REGISTRA ENTERO, CADA VEZ QUE
         PONGO UNA FICHA SE PONE TODO A 0 */
@@ -280,6 +281,9 @@ public class ServidorDifusion implements Runnable {
         } else {
             p.setTurno(p.getUsuario2());
         }
+        
+        String ganador = comprobarGanador(p);
+        System.out.println("EL GANADOR ES: " + ganador);
         
         imprimirTablero(p);
     }
@@ -316,7 +320,36 @@ public class ServidorDifusion implements Runnable {
         return turno;
     }
     
-    public static String comprobarGanador () {
+    public static String comprobarGanador (Partida p) {
+    
+        int comprobador = 1;
+        String winner = "NO";
+        
+        //  COMPROBACIÓN HORIZONTAL         
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 4; j++) {
+                if(p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i][j+1])){
+                    for (int k = j; k < 4; k++) {
+                        if(p.tablero.posiciones[i][k].equals(p.tablero.posiciones[i][k+1])){
+                            comprobador++;
+                        }
+                    }
+                        if (comprobador == 4){
+                            winner = p.tablero.posiciones[i][j];
+                            return winner;
+                        }
+                }
+            }
+        }        
+                
+        
+
+        //  COMPROBACIÓN VERTICAL
+        
+        
+        
+        
+        //  COMPROBACIÓN DIAGONAL
         
         // si hay ganador --> FicherosPartidas.registrarPartida
         return "a";
