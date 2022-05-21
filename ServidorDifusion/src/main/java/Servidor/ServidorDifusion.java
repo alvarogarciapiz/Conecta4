@@ -170,15 +170,19 @@ public class ServidorDifusion implements Runnable {
                         user = listaUsuarios.get(posicionDest);
                         Partida p = buscarPartida(partesmensaje[2]);
                         
-                        if (comprobarTurno(p, partesmensaje[0]) == false) {
-                            //Error
+                        if (p.turno.equals("null")){
+                            respuesta = "ERROR#FINPARTIDA#";
+                            user.sendMessage(respuesta.getBytes());
+                        } else if (comprobarTurno(p, partesmensaje[0]) == false) {
+                            //Error: no es su turno
                             respuesta = "ERROR#NOTURNO#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (comprobarColumnaLlena(p,partesmensaje[3]) == false){
-                            //Error
+                            //Error: columna ya llena
                             respuesta = "ERROR#COLUMNA#";
                             user.sendMessage(respuesta.getBytes());
+                            
                         } else {
                             colocarFicha(partesmensaje[2], partesmensaje[3], partesmensaje[0]);
                             respuesta = "FICHA#EXITO#";
@@ -286,8 +290,9 @@ public class ServidorDifusion implements Runnable {
         if (!ganador.equals("NO")) {
             System.out.println("EL GANADOR ES: " + ganador);
             p.setGanador(ganador);
-            
-            //Registrar la partida en el fichero
+            p.turno = "null"; //El turno=null es un indicador qu ela partida está finalizada
+            //Se registra la partida en el fichero
+            FicherosPartidas.registrarPartida(p);
             //Cerrar la partida
         }
         
@@ -344,12 +349,7 @@ public class ServidorDifusion implements Runnable {
     }
     
     public static String comprobarGanador (Partida p) {
-    
         String winner = "NO";
-        
-//        System.out.println(p.tablero.posiciones[0][0]);
-//        System.out.println(p.tablero.posiciones[5][6]);
-        
         
         //  COMPROBACIÓN HORIZONTAL
         for (int i = 5; i >= 0; i--) {
@@ -394,8 +394,7 @@ public class ServidorDifusion implements Runnable {
                             return p.tablero.posiciones[i][j];
                 }
             }
-        }
-        
+        }     
 
         // si hay ganador --> FicherosPartidas.registrarPartida
         return winner;

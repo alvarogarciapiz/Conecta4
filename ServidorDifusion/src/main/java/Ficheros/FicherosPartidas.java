@@ -37,10 +37,7 @@ public class FicherosPartidas {
             fichero = new FileWriter("datosPartidas.dat", true);
             pw = new PrintWriter(fichero);
 
-            pw.println(Partida.ID + "=" + Partida.ganador + "=" + Partida.usuario1 + "=" + Partida.usuario2 + "=" + Partida.movimientos + "=");
-            for (int i = 0; i < Partida.movimientos.size(); i++) {
-                    pw.print(Partida.movimientos.get(i) + "=");
-            }
+            pw.println(Partida.ID + "=" + Partida.ganador + "=" + Partida.usuario1 + "=" + Partida.usuario2 + "=");
             
             
         } catch (Exception e) {

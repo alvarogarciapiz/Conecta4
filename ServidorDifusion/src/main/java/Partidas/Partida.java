@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Partida {
     public static String usuario1;
     public static String usuario2;
-    public static ArrayList<String> movimientos = new ArrayList<String>();
     public static Tablero tablero;
     public static String ganador;
     public static int ID;
@@ -24,7 +23,6 @@ public class Partida {
     public Partida(String usuario1, String usuario2, ArrayList<String> movimientos, String ganador, int ID) {
         this.usuario1 = usuario1;
         this.usuario2 = usuario2;
-        this.movimientos = movimientos;
         this.ganador = ganador;
         this.ID = ID;
         this.tablero = new Tablero();
@@ -66,14 +64,6 @@ public class Partida {
     public static int solicitarIDPartida () {
         int id = Ficheros.FicherosPartidas.obtenerUltimoIDPartida() + 1;
         return id;
-    }
-
-    public ArrayList<String> getMovimientos() {
-        return movimientos;
-    }
-
-    public void setMovimientos(ArrayList<String> movimientos) {
-        this.movimientos = movimientos;
     }
 
     public static Tablero getTablero() {
