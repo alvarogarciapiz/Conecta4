@@ -283,7 +283,13 @@ public class ServidorDifusion implements Runnable {
         }
         
         String ganador = comprobarGanador(p);
-        System.out.println("EL GANADOR ES: " + ganador);
+        if (!ganador.equals("NO")) {
+            System.out.println("EL GANADOR ES: " + ganador);
+            p.setGanador(ganador);
+            
+            //Registrar la partida en el fichero
+            //Cerrar la partida
+        }
         
         imprimirTablero(p);
     }
@@ -295,6 +301,23 @@ public class ServidorDifusion implements Runnable {
         } else {
             return false;
         }
+    }
+        
+    //Falta comprobar que funciona
+    public static boolean comprobarTableroLleno (Partida p) {
+        int cont = 0;
+        
+        for (int i = 0; i < 6; i++) {
+           if(!p.tablero.getPosiciones()[0][i].equals("0")){
+            cont++;
+            } 
+        }
+        
+        if (cont == 7) {
+            return true;
+        } else {
+            return false;
+        }  
     }
     
     public static int determinarFila (Partida p, int col){
@@ -322,37 +345,60 @@ public class ServidorDifusion implements Runnable {
     
     public static String comprobarGanador (Partida p) {
     
-        int comprobador = 1;
         String winner = "NO";
         
-        //  COMPROBACIÓN HORIZONTAL         
-        for (int i = 0; i < 6; i++) {
+//        System.out.println(p.tablero.posiciones[0][0]);
+//        System.out.println(p.tablero.posiciones[5][6]);
+        
+        
+        //  COMPROBACIÓN HORIZONTAL
+        for (int i = 5; i >= 0; i--) {
             for (int j = 0; j < 4; j++) {
-                if(p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i][j+1])){
-                    for (int k = j; k < 4; k++) {
-                        if(p.tablero.posiciones[i][k].equals(p.tablero.posiciones[i][k+1])){
-                            comprobador++;
-                        }
-                    }
-                        if (comprobador == 4){
-                            winner = p.tablero.posiciones[i][j];
-                            return winner;
-                        }
+                if (!p.tablero.posiciones[i][j].equals("0") && p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i][j+1]) &&
+                        p.tablero.posiciones[i][j+1].equals(p.tablero.posiciones[i][j+2]) &&
+                        p.tablero.posiciones[i][j+2].equals(p.tablero.posiciones[i][j+3])) {
+                            return p.tablero.posiciones[i][j];
+                }
+            }   
+        }
+                
+        //  COMPROBACIÓN VERTICAL
+        for (int j = 0; j < 7; j++) {
+            for (int i = 0; i < 3; i++) {
+                if (!p.tablero.posiciones[i][j].equals("0") && p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i+1][j]) &&
+                        p.tablero.posiciones[i+1][j].equals(p.tablero.posiciones[i+2][j]) &&
+                        p.tablero.posiciones[i+2][j].equals(p.tablero.posiciones[i+3][j])) {
+                            return p.tablero.posiciones[i][j];
                 }
             }
-        }        
-                
-        
-
-        //  COMPROBACIÓN VERTICAL
-        
-        
-        
+        }
         
         //  COMPROBACIÓN DIAGONAL
+                // Primera pasada (de izquierda a derecha)
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 3; i++) {
+                if (!p.tablero.posiciones[i][j].equals("0") && p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i+1][j+1]) &&
+                        p.tablero.posiciones[i+1][j+1].equals(p.tablero.posiciones[i+2][j+2]) &&
+                        p.tablero.posiciones[i+2][j+2].equals(p.tablero.posiciones[i+3][j+3])) {
+                            return p.tablero.posiciones[i][j];
+                }
+            }   
+        }        
         
+                // Segunda pasada (de derecha a izquierda)
+        for (int j = 0; j < 6; j++) {
+            for (int i = 5; i > 2; i--) {
+                if (!p.tablero.posiciones[i][j].equals("0") && p.tablero.posiciones[i][j].equals(p.tablero.posiciones[i-1][j+1]) &&
+                        p.tablero.posiciones[i-1][j+1].equals(p.tablero.posiciones[i-2][j+2]) &&
+                        p.tablero.posiciones[i-2][j+2].equals(p.tablero.posiciones[i-3][j+3])) {
+                            return p.tablero.posiciones[i][j];
+                }
+            }
+        }
+        
+
         // si hay ganador --> FicherosPartidas.registrarPartida
-        return "a";
+        return winner;
     }
 
 }
