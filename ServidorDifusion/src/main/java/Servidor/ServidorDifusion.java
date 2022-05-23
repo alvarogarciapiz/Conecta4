@@ -4,8 +4,7 @@ import Ficheros.FicherosPartidas;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import Partidas.Partida;
-import Partidas.Tablero;
+import Partidas.*;
 import Servidor.ClienteDifusion;
 
 public class ServidorDifusion implements Runnable {
@@ -276,8 +275,6 @@ public class ServidorDifusion implements Runnable {
   
         p.tablero.posiciones[fil][col] = user.substring(0,2);
         
-        /* ME HE QUEDADO AQUÍ: EL TABLERO NO SE REGISTRA ENTERO, CADA VEZ QUE
-        PONGO UNA FICHA SE PONE TODO A 0 */
         
         //Actualizamos el turno al otro usuario
         if (p.getTurno().equals(p.getUsuario2())) {

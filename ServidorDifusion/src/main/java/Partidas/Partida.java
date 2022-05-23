@@ -9,13 +9,6 @@ public class Partida {
     public static String ganador;
     public static int ID;
     public static String turno;
-    
-    /* Cuando se inicia una nueva partida será necesario conocer los dos usuarios
-    que juegan así como un registro de los movimientos almacenados en un array de
-    cadenas. Los datos en el fichero de partidas se guardarán de la siguiente manera:
-    
-    ID=ganador=usuario1=usuario2=primerMovimientoUsuario1=primerMovimientoUsuario2=segundoMovimientoUsuario1=segundoMovimientoUsuario2= [...]
-    */
 
     public Partida() {
     }

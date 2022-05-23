@@ -16,12 +16,15 @@ public class Cliente extends Thread {
     
     public static void main (String args[]) throws Exception{
         
+        
+        
         //Cliente c = new Cliente();
         c.sck = new Socket ("127.0.0.1", 5666);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
-        c.start(); // Sigue funcionando...
+        c.start();
         
-        
+        pantallaLogin.main(args); //Inicia la interfaz
+ 
         String inicio = getNick() + "#START# ";
         c.getSck().getOutputStream().write(inicio.getBytes());
         System.out.println("Envio: " + inicio);
@@ -68,13 +71,11 @@ public class Cliente extends Thread {
     public static boolean hacerLogin (String email, String password) throws IOException {
         boolean acceso = false;
         byte[] buffer = new byte[1024];
-        
 
         Socket sck2 = new Socket ("127.0.0.1", 5665);
         String ni = c.nick;
         System.out.println("El nick es: "+ni);
         String mensaje = ni + "#LOGIN" + "#" + email + "#" + password + "#";
-        System.out.println(mensaje);
         sck2.getOutputStream().write(mensaje.getBytes());
         
         //

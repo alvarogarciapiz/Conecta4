@@ -5,6 +5,7 @@ import Servidor.ClienteDifusion;
 import Servidor.Principal;
 import Servidor.ServidorDifusion;
 import java.io.*;
+import java.util.ArrayList;
 
 public class Ficheros {
     
@@ -328,6 +329,42 @@ public class Ficheros {
          }
       }
       return partidas;
+    }
+    
+    
+    public static ArrayList<String> obtenerListadoNicks() { // #1
+    File archivo = null;
+    FileReader fr = null;
+    BufferedReader br = null;
+    ArrayList<String> listUsers = new ArrayList<String>();
+
+      try {
+         archivo = new File ("datosUsuarios.dat");
+         fr = new FileReader (archivo);
+         br = new BufferedReader(fr);
+
+         //Lectura del fichero
+         String linea;
+         
+         while((linea=br.readLine())!=null){
+            String linea2=linea;
+            String[] parts = linea2.split("=");
+            listUsers.add(parts[1]);
+                
+         }
+      }
+      catch(Exception e){
+         e.printStackTrace();
+      }finally{
+         try{                    
+            if( null != fr ){   
+               fr.close();     
+            }                  
+         }catch (Exception e2){ 
+            e2.printStackTrace();
+         }
+      }
+      return listUsers;
     }
     
 }

@@ -247,9 +247,6 @@ public class pantallaLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAccederActionPerformed
-        
-        
-        
         String passLoginContent = passLogin.getText();
         String emailLoginContent = emailLogin.getText();
         
