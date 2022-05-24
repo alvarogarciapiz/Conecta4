@@ -347,4 +347,9 @@ public class pantallaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel resultLogin;
     private javax.swing.JLabel resultRegistro;
     // End of variables declaration//GEN-END:variables
+
+public static void loginCorrecto (){
 }
+
+}
+

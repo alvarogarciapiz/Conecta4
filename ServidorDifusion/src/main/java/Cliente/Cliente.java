@@ -6,9 +6,9 @@ import java.util.*;
 
 public class Cliente extends Thread {
 
-    private static Socket sck;
+    public static Socket sck;
     public static String email;
-    private static String nick;
+    public static String nick;
     public static String password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
     public static boolean login = false;
@@ -16,18 +16,18 @@ public class Cliente extends Thread {
     
     public static void main (String args[]) throws Exception{
         
-        
-        
         //Cliente c = new Cliente();
-        c.sck = new Socket ("127.0.0.1", 5666);
+        c.sck = new Socket ("127.0.0.1", 5665);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
         c.start();
-        
-        pantallaLogin.main(args); //Inicia la interfaz
  
         String inicio = getNick() + "#START# ";
         c.getSck().getOutputStream().write(inicio.getBytes());
         System.out.println("Envio: " + inicio);
+        
+        //Inicializa la interfaz
+        pantallaLogin.main(null);
+        
         
         BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
         
@@ -90,7 +90,8 @@ public class Cliente extends Thread {
                 if (partesMensaje[1].equals("OK")) {
                     nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
                     login = true;
-                    //pantallaLogin.login
+                    pantallaJuego.main(null);
+                    int a = pantallaLogin.DISPOSE_ON_CLOSE;
                 }                             
                 break;
                 

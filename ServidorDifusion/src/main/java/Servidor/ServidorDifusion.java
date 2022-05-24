@@ -16,7 +16,7 @@ public class ServidorDifusion implements Runnable {
     public static int cont = 0;
 
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5666);
+        servidor = new ServerSocket(5665);
         t = new Thread(this);
         t.start();
     }
@@ -33,6 +33,7 @@ public class ServidorDifusion implements Runnable {
         while (true) {
             System.out.println("Esperando clientes...");
             Socket sck = servidor.accept();
+            
 
             //--> Aquí tengo el usuario conectado
             System.out.println(listaUsuarios.size() + 1 + " clientes conectados...");
@@ -47,6 +48,7 @@ public class ServidorDifusion implements Runnable {
         try {
 
             String msg = new String(mensaje);
+            System.out.println("MENSAJE: " + mensaje);
             String[] partesmensaje = msg.split("#");
             String respuesta;
             Boolean error = false;
@@ -189,6 +191,11 @@ public class ServidorDifusion implements Runnable {
                         }
                         break;
 
+                    case "RANKING":
+                        respuesta = Partidas.Ranking.obtenerRanking();
+                        user.sendMessage(respuesta.getBytes());
+                        break;
+                        
                     default:
                         respuesta = "ERROR";
                         user.sendMessage(respuesta.getBytes());
