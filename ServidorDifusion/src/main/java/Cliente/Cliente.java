@@ -68,18 +68,9 @@ public class Cliente extends Thread {
         }
     }
     
-    public static boolean hacerLogin (String email, String password) throws IOException {
-        boolean acceso = false;
-        byte[] buffer = new byte[1024];
-
-        Socket sck2 = new Socket ("127.0.0.1", 5665);
-        String ni = c.nick;
-        System.out.println("El nick es: "+ni);
-        String mensaje = ni + "#LOGIN" + "#" + email + "#" + password + "#";
-        sck2.getOutputStream().write(mensaje.getBytes());
-        
-        //
-        return acceso;
+    public static void hacerLogin (String email, String password) throws IOException {
+        String mensaje = nick + "#LOGIN" + "#" + email + "#" + password + "#";
+        sck.getOutputStream().write(mensaje.getBytes());
     }
     
     
@@ -99,6 +90,7 @@ public class Cliente extends Thread {
                 if (partesMensaje[1].equals("OK")) {
                     nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
                     login = true;
+                    //pantallaLogin.login
                 }                             
                 break;
                 
