@@ -4,9 +4,16 @@ import Partidas.Partida;
 import java.io.*;
 import java.util.*;
 
+/**
+ * Clase que cubre toa la lógica de gestión de Ficheros para el apartado de partidas
+ * como puede ser el registro de partidas en ficheros y la obtención del último ID 
+ * de partida registrado.
+ * @author alvaro
+ * @version 1.0
+ * @since 09/04/2021
+ */
 public class FicherosPartidas {
 
-    // Eliminar
     public static void nuevaPartida(String usuario1, String usuario2, String ganador, int ID) {
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -29,7 +36,10 @@ public class FicherosPartidas {
         }
     }
 
-    
+    /**
+     * Método que registra una nueva partida en el fichero 'datosPartidas.dat'
+     * @param p1 Objeto de tipo partida
+     */
     public static void registrarPartida(Partida p1) {
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -51,9 +61,12 @@ public class FicherosPartidas {
                 e2.printStackTrace();
             }
         }
-    }
-    
+    }  
 
+    /**
+     * Método que lee el último ID de partida y lo develve
+     * @return id de la partida
+     */
     public static int obtenerUltimoIDPartida() {
         File archivo = null;
         FileReader fr = null;

@@ -7,9 +7,22 @@ import Servidor.ServidorDifusion;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Clase que cubre toda la lógica de gestión de Ficheros para el apartado de usuarios
+ * como login, comprobación de datos repetidos y obtención de información sobre los 
+ * usuarios como información sobre sus partidas. Se trabaja con el fichero datosUsuarios.dat
+ * @author alvaro
+ * @version 1.0
+ * @since 08/04/2021
+ */
 public class Ficheros {
     
-    
+    /**
+     * Método que verifica el login cuanod se reciben unas credenciales
+     * @param email
+     * @param password
+     * @return acceso que será true si las credenciales existen y son correctas
+     */
     public static boolean loginUsuario(String email, String password){
     File archivo = null;
     FileReader fr = null;
@@ -48,7 +61,12 @@ public class Ficheros {
         return acceso;
     }
     
-    
+    /**
+     * Método que lee el fichero para comprobar si el mail que se intenta registrar
+     * existe ya en el fichero
+     * @param email
+     * @return repetido que será true si ya está registrado
+     */
     public static boolean comprobarEmailRepetido(String email){
     File archivo = null;
     FileReader fr = null;
@@ -84,7 +102,12 @@ public class Ficheros {
         return repetido;
     }
     
-    
+    /**
+     * Método que verifica si el username o nick que se intenta registrar ya está
+     * en el ficheor registrado
+     * @param username
+     * @return repetido que será true si ya está registrado
+     */
     public static boolean comprobarUsernameRepetido(String username){
     File archivo = null;
     FileReader fr = null;
@@ -124,7 +147,13 @@ public class Ficheros {
         return repetido;
     }
     
-    
+    /**
+     * Método que se encarga de registrar el usuario en el frichero guardando su nick,
+     * email y contraseña
+     * @param user
+     * @param pass
+     * @param mail 
+     */
     public static void escribirDatosUsuariosFicheros (String user, String pass, String mail){
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -148,7 +177,10 @@ public class Ficheros {
         }
     }
     
-    
+    /**
+     * Método que al comeinzo de la ejecución del programa carga en el servidor todos
+     * los usuaarios registrados en formado de objeto usuario
+     */
     public static void crearUsuariosDeFichero(){
     File archivo = null;
     FileReader fr = null;
@@ -183,6 +215,11 @@ public class Ficheros {
       }
     }
     
+    /**
+     * Método que busca un nick por su email. Recube un email y devuelve el nick asociado
+     * @param email
+     * @return nick del usuario o ERROR si no se encuentra
+     */
     public static String buscarNickPorEmail(String email){
     File archivo = null;
     FileReader fr = null;
@@ -220,6 +257,11 @@ public class Ficheros {
       return nick;
     }
     
+    /**
+     * Método que devuelve el número de partidas jugadas de un determinado usuario
+     * @param nick
+     * @return número de partidas jugadas
+     */
     public static int obtenerPartidasJugadas (String nick){
     File archivo = null;
     FileReader fr = null;
@@ -257,6 +299,11 @@ public class Ficheros {
       return partidas;
     }
     
+    /**
+     * Método que devuelve el número de partidas ganadas de un determinado usuario
+     * @param nick
+     * @return número de partidas ganadas
+     */
     public static int obtenerPartidasGanadas (String nick){
     File archivo = null;
     FileReader fr = null;
@@ -294,6 +341,11 @@ public class Ficheros {
       return partidas;
     }
     
+    /**
+     * Método que devuelve el número de partidas perdidas de un determinado usuario
+     * @param nick
+     * @return número de partidas perdidas
+     */
     public static int obtenerPartidasPerdidas (String nick){
     File archivo = null;
     FileReader fr = null;
@@ -331,7 +383,10 @@ public class Ficheros {
       return partidas;
     }
     
-    
+    /**
+     * Método que devuelve un arraylist con todos los usuarios dn formato de arraylist
+     * @return arraylist de usuarios
+     */
     public static ArrayList<String> obtenerListadoNicks() { // #1
     File archivo = null;
     FileReader fr = null;

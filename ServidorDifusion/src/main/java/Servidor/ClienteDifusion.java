@@ -3,6 +3,12 @@ package Servidor;
 import java.io.*;
 import java.net.*;
 
+/**
+ * Clase que maneja toda la lógica del cliente desde el lado del servidor
+ * @author alvaro
+ * @version 1.0
+ * @since 01/04/2021
+ */
 public class ClienteDifusion extends Thread {
     private Socket cliente; //--> canal de lectura y escritura
     private OutputStream os;

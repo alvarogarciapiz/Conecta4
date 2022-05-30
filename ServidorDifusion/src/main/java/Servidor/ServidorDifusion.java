@@ -7,6 +7,13 @@ import java.util.*;
 import Partidas.*;
 import Servidor.ClienteDifusion;
 
+/**
+ * Clase que maneja toda la lógica del servidor, aquí llegan todas las peticiones
+ * de los diferentes clientes y serán gestionadas mediante hilos
+ * @author alvaro
+ * @version 1.0
+ * @since 01/04/2021
+ */
 public class ServidorDifusion implements Runnable {
 
     private ServerSocket servidor;
@@ -44,7 +51,22 @@ public class ServidorDifusion implements Runnable {
     }
 
     
-    
+    /**
+     * Método que con el mensaje recibido del servidor realiza acciones (validador):
+     * START: Busca al cliente y lo añade a la lista
+     * REGISTRO: Realiza las correspondientes verificaciones y si todas son correctas 
+     * lo añade al fichero y a la lista de usuarios
+     * LOGIN: Si el login es correcto se añade al usuario a la lista
+     * DISPONIBLES: Devuelve al usuaio que lo solcitó una lista con todos los usuarios
+     * conectados al servidor sin contarle a él
+     * RETAR: Manda al usuario al que estñán retando la notificación del reto
+     * RESPUESTARETO: Si la respuesta al reto es afirmativa se crea una partida y se aceptan movimientos
+     * RANKING: Devuelve un String con los 5 mejores jugadores al usuario que lo solcitó
+     * (los 5 mejores jugadores bajo el criterio de más partidas ganadas)
+     * FICHA: Permite colocar una ficha, para ello se realizan todas las verificaciones correspondientes
+     * antes de colocarla.
+     * @param mensaje 
+     */
     public static void difusionMensaje(byte[] mensaje) {
 
         try {
@@ -208,6 +230,12 @@ public class ServidorDifusion implements Runnable {
         }
     }
 
+    /**
+     * Método que con el nick del cliente se busca y obtiene el objeto de tipo usuario,
+     * este devuelve su posición en el arraylist
+     * @param nick
+     * @return 
+     */
     public static int buscarCliente(String nick) {
         ClienteDifusion user = null;
         int i = 0;
@@ -222,6 +250,12 @@ public class ServidorDifusion implements Runnable {
         return i;
     }
 
+    /**
+     * Método que establece las credenciales del usuario para el objeto del lado del servidor
+     * @param nick
+     * @param email
+     * @param password 
+     */
     public static void hacerLogin(String nick, String email, String password) {
 
         for (int i = 0; i < listaUsuarios.size(); i++) {
@@ -237,6 +271,12 @@ public class ServidorDifusion implements Runnable {
         }
     }
 
+    /**
+     * Método que crea un objeto de tipo partida y lo añade al arraylist que almacena
+     * el servidor
+     * @param usuario1
+     * @param usuario2 
+     */
     public static void registrarPartida(String usuario1, String usuario2) {
         Partida p1 = new Partida();
         p1.setID(Partida.solicitarIDPartida());
@@ -249,7 +289,10 @@ public class ServidorDifusion implements Runnable {
         listaPartidas.add(p1);
     }
 
-
+    /**
+     * Método que imprime por pantalla del servidor la partida
+     * @param p1, la partida
+     */
     public static void imprimirTablero(Partida p1) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
@@ -260,6 +303,11 @@ public class ServidorDifusion implements Runnable {
         System.out.println("\n");
     }
 
+    /**
+     * Método que con el ID de la partida devuelve el objeto partida
+     * @param id de la partida
+     * @return Partida
+     */
     public static Partida buscarPartida(String id) {
         Partida p1 = new Partida();
 
@@ -274,6 +322,13 @@ public class ServidorDifusion implements Runnable {
         return p1;
     }
 
+    /**
+     * Método que escribe en el tablero la ficha que se ha colocado, comprueba si
+     * hay un ganador y en caso de no haberlo cambia el turno a otros usuario
+     * @param idPartida
+     * @param movCOL, la Columna
+     * @param user, el USuario
+     */
     public static void colocarFicha(String idPartida, String movCOL, String user) {
         Partida p = buscarPartida(idPartida);
 
@@ -304,6 +359,12 @@ public class ServidorDifusion implements Runnable {
         imprimirTablero(p);
     }
     
+    /**
+     * Método que comprueba si una dterminada columna está llena
+     * @param p, l apartida
+     * @param colum, la columna
+     * @return true si está llena y sino false
+     */
     public static boolean comprobarColumnaLlena (Partida p, String colum){
         int col = Integer.parseInt(colum);
         if(p.tablero.getPosiciones()[0][col].equals("0")){
@@ -313,7 +374,11 @@ public class ServidorDifusion implements Runnable {
         }
     }
         
-    //Falta comprobar que funciona
+    /**
+     * Método que verifica si el tablero está lleno
+     * @param p, la partida
+     * @return true si está lleno el tablero
+     */
     public static boolean comprobarTableroLleno (Partida p) {
         int cont = 0;
         
@@ -330,6 +395,13 @@ public class ServidorDifusion implements Runnable {
         }  
     }
     
+    /**
+     * Método encargado de determinar la fila en la que colocar la ficha una vez
+     * nos la indica el usuario (la columna)
+     * @param p, la partida
+     * @param col, la columna donde se quiere meter la ficha
+     * @return fila donde hay que colocar la ficha
+     */
     public static int determinarFila (Partida p, int col){
         int fila = 0;
         
@@ -342,6 +414,12 @@ public class ServidorDifusion implements Runnable {
         return fila;
     }
     
+    /**
+     * Método encargado de comprobar el turno del usuario
+     * @param p que es la partida
+     * @param nick del usuario a comprobar
+     * @return turno que es false si no es su turno
+     */
     public static boolean comprobarTurno (Partida p, String nick) {
         boolean turno = false;
         
@@ -353,6 +431,13 @@ public class ServidorDifusion implements Runnable {
         return turno;
     }
     
+    /**
+     * Método que comprueba en cada turno si una determinada partida tiene unn ganador,
+     * para ello se hace una comprobación horizontal, vertical y en las dos direcciones
+     * de las diagonales
+     * @param p, la partida que se debe comprobar
+     * @return un String con 'SI' o 'NO'
+     */
     public static String comprobarGanador (Partida p) {
         String winner = "NO";
         

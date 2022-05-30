@@ -3,7 +3,12 @@ package Cliente;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+/**
+ * Clase Cliente que desarrolla toda la lógica de negocio desde el lado del cliente
+ * @author alvaro
+ * @version 2.0
+ * @since 01/04/2021
+ */
 public class Cliente extends Thread {
 
     public static Socket sck;
@@ -13,6 +18,12 @@ public class Cliente extends Thread {
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
     public static boolean login = false;
     
+    /**
+     * Método principal, Primero establece una conexión con el servidor mediante el 'START'
+     * acto seguido invoca a run()
+     * @param args
+     * @throws Exception 
+     */
     public static void main (String args[]) throws Exception{
         
         Cliente c = new Cliente();
@@ -44,7 +55,9 @@ public class Cliente extends Thread {
         
     }
     
-    @Override
+    /**
+     * @Override
+     */
     public void run() {
         try {
             InputStream is = getSck().getInputStream();
@@ -68,12 +81,23 @@ public class Cliente extends Thread {
         }
     }
     
+    /**
+     * Método que se encarga de hacer login del usuario
+     * @param email
+     * @param password
+     * @throws IOException 
+     */
     public static void hacerLogin (String email, String password) throws IOException {
         String mensaje = nick + "#LOGIN" + "#" + email + "#" + password + "#";
         sck.getOutputStream().write(mensaje.getBytes());
     }
     
-    
+    /**
+     * Método que genera un ID aleatorio entre 0 y 50000 que se utiliza justo al comienzo
+     * de la ejecución del programa cuando todavía el cliente no está logeado o registrado y el 
+     * servidor tiene que tener alguna forma de localizarlo
+     * @return id en String
+     */
     public static String generarRandomID () {
         Random rand = new Random();
         int RandId = rand.nextInt(50000);
@@ -81,6 +105,12 @@ public class Cliente extends Thread {
         return id;
     }
     
+    /**
+     * Método que recibe el mensaje del servidor y lo gestiona ya sea la respuesta correcta
+     * o incorrecta del login, que le llegue un reto al usuario o que tiene que mover una ficha
+     * @param mensaje
+     * @throws IOException 
+     */
     public static void gestorRespuestas (String mensaje) throws IOException {     //  "#LOGIN#OK#"  + nick  + "#"; 
         String [] partesMensaje = mensaje.split("#");
         Scanner sc = new Scanner(System.in); 
@@ -119,10 +149,18 @@ public class Cliente extends Thread {
         
     }
 
+    /**
+     * Retorna el socket
+     * @return sck (socket)
+     */
     public static Socket getSck() {
         return sck;
     }
 
+    /**
+     * Retorna el Nick del cliente/usuario
+     * @return nick
+     */
     public static String getNick() {
         return nick;
     }
