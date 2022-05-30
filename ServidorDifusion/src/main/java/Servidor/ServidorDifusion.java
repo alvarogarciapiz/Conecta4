@@ -16,7 +16,7 @@ public class ServidorDifusion implements Runnable {
     public static int cont = 0;
 
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5665);
+        servidor = new ServerSocket(5666);
         t = new Thread(this);
         t.start();
     }
@@ -43,12 +43,13 @@ public class ServidorDifusion implements Runnable {
         }
     }
 
+    
+    
     public static void difusionMensaje(byte[] mensaje) {
 
         try {
 
             String msg = new String(mensaje);
-            System.out.println("MENSAJE: " + mensaje);
             String[] partesmensaje = msg.split("#");
             String respuesta;
             Boolean error = false;

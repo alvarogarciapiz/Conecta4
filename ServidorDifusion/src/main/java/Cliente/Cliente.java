@@ -12,21 +12,21 @@ public class Cliente extends Thread {
     public static String password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
     public static boolean login = false;
-    public static Cliente c = new Cliente();
     
     public static void main (String args[]) throws Exception{
         
-        //Cliente c = new Cliente();
-        c.sck = new Socket ("127.0.0.1", 5665);
+        Cliente c = new Cliente();
+        c.sck = new Socket ("127.0.0.1", 5666);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
         c.start();
  
+        //Inicializo conexión con el servidor
         String inicio = getNick() + "#START# ";
         c.getSck().getOutputStream().write(inicio.getBytes());
         System.out.println("Envio: " + inicio);
         
         //Inicializa la interfaz
-        pantallaLogin.main(null);
+        //pantallaLogin.main(null);
         
         
         BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
