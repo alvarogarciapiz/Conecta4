@@ -17,9 +17,21 @@ public class ClienteDifusion extends Thread {
     public String email, nick, password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
 
+    /**
+     * Constructor vacío de ClienteDifusion
+     */
     public ClienteDifusion() {
     }
 
+    /**
+     * Constructor de ClienteDifusion
+     * @param email
+     * @param nick
+     * @param password
+     * @param partidasJugadas
+     * @param partidasGanadas
+     * @param partidasPerdidas 
+     */
     public ClienteDifusion(String email, String nick, String password, int partidasJugadas, int partidasGanadas, int partidasPerdidas) {
         this.email = email;
         this.nick = nick;
@@ -29,7 +41,15 @@ public class ClienteDifusion extends Thread {
         this.partidasPerdidas = partidasPerdidas;
     }
      
-    
+    /**
+     * Constructor de ClienteDifusion para el socket
+     * @param email
+     * @param nick
+     * @param password
+     * @param partidasJugadas
+     * @param partidasGanadas
+     * @param partidasPerdidas 
+     */
     public ClienteDifusion(Socket sck) throws Exception {
         cliente = sck;
         os = cliente.getOutputStream();
@@ -66,75 +86,145 @@ public class ClienteDifusion extends Thread {
 
     
     
-    //--> Setters y Getters
+    /**
+     * Retorna el objeto cliente
+     * @return Cliente
+     */
     public Socket getCliente() {
         return cliente;
     }
 
+    /**
+     * Establece el cliente
+     * @param cliente 
+     */
     public void setCliente(Socket cliente) {
         this.cliente = cliente;
     }
 
+    /**
+     * Retorna el OutPutStream
+     * @return os
+     */
     public OutputStream getOs() {
         return os;
     }
 
+    /**
+     * Establece el OutPutStream
+     * @param os 
+     */
     public void setOs(OutputStream os) {
         this.os = os;
     }
 
+    /**
+     * Retorna el InPutStream
+     * @return is
+     */
     public InputStream getIs() {
         return is;
     }
 
+    /**
+     * Establece el InPutStream
+     * @param is 
+     */
     public void setIs(InputStream is) {
         this.is = is;
     }
 
+    /**
+     * Retorna el email del cliente
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Establece el email del cliente
+     * @return email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Retorna el nick del cliente
+     * @return nick
+     */
     public String getNick() {
         return nick;
     }
 
+    /**
+     * Establece el nick del cliente
+     * @return nick
+     */
     public void setNick(String nick) {
         this.nick = nick;
     }
 
+    /**
+     * Retorna el password del cliente
+     * @return password
+     */
     public String getPassword() {
         return password;
     }
-
+    /**
+     * Establece el password del cliente
+     * @return password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     * Retorna las partidas jugadas del cliente
+     * @return partidasJugadas
+     */
     public int getPartidasJugadas() {
         return partidasJugadas;
     }
 
+    /**
+     * Establece la spartidas jugadas del cliente
+     * @param partidasJugadas 
+     */
     public void setPartidasJugadas(int partidasJugadas) {
         this.partidasJugadas = partidasJugadas;
     }
 
+    /**
+     * Obtiene las partidas ganadas
+     * @return partidasGanadas
+     */
     public int getPartidasGanadas() {
         return partidasGanadas;
     }
 
+    /**
+     * Establece las partidas ganadas
+     * @param partidasGanadas 
+     */
     public void setPartidasGanadas(int partidasGanadas) {
         this.partidasGanadas = partidasGanadas;
     }
 
+    /**
+     * Retorna las partidas perdidas
+     * @return partidasPerdidas
+     */
     public int getPartidasPerdidas() {
         return partidasPerdidas;
     }
 
+    /**
+     * Establece las partidas perdidas
+     * @return partidasPerdidas
+     */
     public void setPartidasPerdidas(int partidasPerdidas) {
         this.partidasPerdidas = partidasPerdidas;
     }
