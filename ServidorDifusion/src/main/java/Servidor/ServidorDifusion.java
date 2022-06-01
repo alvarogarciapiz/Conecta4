@@ -151,7 +151,7 @@ public class ServidorDifusion implements Runnable {
                         break;
 
                     case "DISPONIBLES": //Se devuelven todos los usuarios disponibles
-                        respuesta = "";
+                        respuesta = "DISPONIBLES#";
                         for (int i = 0; i < listaUsuarios.size(); i++) {
                             if (!partesmensaje[0].equals(listaUsuarios.get(i).nick)) {
                                 respuesta = respuesta + listaUsuarios.get(i).nick + "#";
@@ -215,7 +215,7 @@ public class ServidorDifusion implements Runnable {
                         break;
 
                     case "RANKING":
-                        respuesta = Partidas.Ranking.obtenerRanking();
+                        respuesta = "RANKING" + "#" + Partidas.Ranking.obtenerRanking();
                         user.sendMessage(respuesta.getBytes());
                         break;
                     case "PRUEBA":

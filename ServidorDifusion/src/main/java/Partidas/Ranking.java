@@ -39,7 +39,7 @@ public class Ranking {
 
         //Sólo nos quedamos con los X (tamRanking) primeros
         for (int i = 0; i < tamRanking; i++) {
-            ranking = ranking + usuarios.get(i) + "=";
+            ranking = ranking + usuarios.get(i) + "#";
         }
 
         return ranking;
