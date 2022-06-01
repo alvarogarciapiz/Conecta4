@@ -1,38 +1,28 @@
 package Cliente;
-import java.awt.*;
-import java.awt.event.WindowEvent;
-import javax.swing.*;
-import RegistroyLogin.login;
-import RegistroyLogin.Registro;
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
+import java.net.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class pantallaLogin extends javax.swing.JFrame {
+public class pantallaLogin extends javax.swing.JFrame implements Runnable {
 
-    
+    private static String nick;
+    public static boolean login = false;
+    private static Socket sck;
+
     /**
      * Creates new form pantallaLogin
      */
     public pantallaLogin() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.setTitle("Login y Registro");
+        this.setTitle("Login");
     }
 
     @SuppressWarnings("unchecked")
-    
-    
-    public void loginUsuario(boolean acceso){
-            resultLogin.setText("Se le está redirigiendo a la pantalla de juego");
-            
-            //new pantallaJuego().setVisible(true); --> Abrir la pantalla del juego
-            this.dispose();//to close the current jframe
 
-        
-    }
-    
-    
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -55,6 +45,7 @@ public class pantallaLogin extends javax.swing.JFrame {
         resultRegistro = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         imagen = new javax.swing.JPanel();
+        accederJuego = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
@@ -130,7 +121,7 @@ public class pantallaLogin extends javax.swing.JFrame {
         resultRegistro.setText(" ");
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 0, 51));
+        jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setText("Conecta 4");
 
         javax.swing.GroupLayout imagenLayout = new javax.swing.GroupLayout(imagen);
@@ -144,25 +135,33 @@ public class pantallaLogin extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        accederJuego.setBackground(new java.awt.Color(153, 204, 255));
+        accederJuego.setText("Acceder al Juego");
+        accederJuego.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accederJuegoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(135, 135, 135)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(passLoginText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(passLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(emailLoginTExt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(emailLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(resultLogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(botonAcceder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(passLoginText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(emailLoginTExt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emailLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resultLogin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonAcceder, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accederJuego, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(94, 94, 94)
@@ -231,12 +230,14 @@ public class pantallaLogin extends javax.swing.JFrame {
                                 .addComponent(botonAcceder)
                                 .addGap(18, 18, 18)
                                 .addComponent(resultLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(177, 177, 177))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(accederJuego, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(75, 75, 75))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(141, 141, 141))))
+                        .addContainerGap())))
         );
 
         pack();
@@ -245,14 +246,14 @@ public class pantallaLogin extends javax.swing.JFrame {
     private void botonAccederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAccederActionPerformed
         String passLoginContent = passLogin.getText();
         String emailLoginContent = emailLogin.getText();
-        
-        boolean acceso=false;
+
         try {
-            Cliente.hacerLogin(emailLoginContent, passLoginContent);
+            hacerLogin(emailLoginContent, passLoginContent);
         } catch (IOException ex) {
             Logger.getLogger(pantallaLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+
     }//GEN-LAST:event_botonAccederActionPerformed
 
     private void nickRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nickRegistroActionPerformed
@@ -268,7 +269,7 @@ public class pantallaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_passRegistroActionPerformed
 
     private void passLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passLoginActionPerformed
-        
+
     }//GEN-LAST:event_passLoginActionPerformed
 
     private void emailLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailLoginActionPerformed
@@ -276,57 +277,61 @@ public class pantallaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_emailLoginActionPerformed
 
     private void botonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistroActionPerformed
-        
+
         String passRegistroContent = passRegistro.getText();
         String emailRegistroContent = emailRegistro.getText();
         String nickRegistroContect = nickRegistro.getText();
-        
-        String accesoRegistro = Registro.registrarNuevoUsuario(emailRegistroContent, nickRegistroContect, passRegistroContent);
-        
-        if (accesoRegistro.equals("true")) {
-            accesoRegistro = "Registro completado con éxito. Haz login para acceder al juego.";
+
+        try {
+            hacerRegistro(emailRegistroContent, passRegistroContent, nickRegistroContect);
+        } catch (IOException ex) {
+            Logger.getLogger(pantallaLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        resultRegistro.setText(accesoRegistro);
-        
+
     }//GEN-LAST:event_botonRegistroActionPerformed
 
-    
+    private void accederJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accederJuegoActionPerformed
+        if (login==true) {
+            try {
+                pantallaJuego.main(null);
+                this.dispose();
+            } catch (IOException ex) {
+                Logger.getLogger(pantallaLogin.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+        } else {
+            resultLogin.setText("Primero debes hacer login.");
+        }
+    }//GEN-LAST:event_accederJuegoActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(pantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(pantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(pantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(pantallaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    public static void main(String args[]) throws IOException {
 
-        /* Create and display the form */
+        pantallaLogin c = new pantallaLogin();
+        c.sck = new Socket("127.0.0.1", 5665);
+        c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
+        Thread t1 = new Thread(c);
+        t1.start();
+
+        //Inicializo conexión con el servidor
+        String inicio = getNick() + "#START# ";
+        c.getSck().getOutputStream().write(inicio.getBytes());
+        System.out.println("Envio: " + inicio);
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new pantallaLogin().setVisible(true);
+               
+                
             }
         });
+        
+        
     }
-
+public static javax.swing.JLabel aa;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton accederJuego;
     private javax.swing.JButton botonAcceder;
     private javax.swing.JButton botonRegistro;
     private javax.swing.JTextField emailLogin;
@@ -344,12 +349,110 @@ public class pantallaLogin extends javax.swing.JFrame {
     private javax.swing.JLabel passLoginText;
     private javax.swing.JTextField passRegistro;
     private javax.swing.JLabel passRegistroText;
-    private javax.swing.JLabel resultLogin;
-    private javax.swing.JLabel resultRegistro;
+    public static javax.swing.JLabel resultLogin;
+    public static javax.swing.JLabel resultRegistro;
     // End of variables declaration//GEN-END:variables
 
-public static void loginCorrecto (){
-}
+    @Override
+    public void run() {
+        try {
+            InputStream is = getSck().getInputStream();
+            byte[] buffer = new byte[1024];
+            ByteArrayOutputStream baos = null;
+            int nb;
 
-}
+            //¿Lo que recibe el cliente?
+            while (true) {
+                baos = new ByteArrayOutputStream();
+                do {
+                    nb = is.read(buffer);
+                    baos.write(buffer, 0, nb);
+                } while (is.available() > 0);
+                String mensajeRecibido = new String(baos.toByteArray());
+                System.out.println("\tRecibido. > " + mensajeRecibido);
+                gestorRespuestas(mensajeRecibido);
+            }
+        } catch (Exception ex) {
 
+        }
+    }
+
+    public static void hacerLogin(String email, String password) throws IOException {
+        String mensaje = getNick() + "#LOGIN" + "#" + email + "#" + password + "#";
+        sck.getOutputStream().write(mensaje.getBytes());
+    }
+    
+    public static void hacerRegistro (String email, String password, String nick) throws IOException {
+        String mensaje = getNick() + "#REGISTRO" + "#" + email + "#" + nick + "#" + password + "#";
+        sck.getOutputStream().write(mensaje.getBytes());
+    }
+
+    /**
+     * Método que genera un ID aleatorio entre 0 y 50000 que se utiliza justo al
+     * comienzo de la ejecución del programa cuando todavía el cliente no está
+     * logeado o registrado y el servidor tiene que tener alguna forma de
+     * localizarlo
+     *
+     * @return id en String
+     */
+    public static String generarRandomID() {
+        Random rand = new Random();
+        int RandId = rand.nextInt(50000);
+        String id = Integer.toString(RandId);
+        return id;
+    }
+
+    /**
+     * Método que recibe el mensaje del servidor y lo gestiona ya sea la
+     * respuesta correcta o incorrecta del login, que le llegue un reto al
+     * usuario o que tiene que mover una ficha
+     *
+     * @param mensaje
+     * @throws IOException
+     */
+    public static void gestorRespuestas(String mensaje) throws IOException {
+        String[] partesMensaje = mensaje.split("#");
+        Scanner sc = new Scanner(System.in);
+        switch (partesMensaje[0]) {
+            
+            case "LOGIN":
+                if (partesMensaje[1].equals("OK")) {
+                    nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
+                    resultLogin.setText("Login correcto, haz clic abajo para acceder al juego");
+                    login = true;
+                    System.out.println("Login es igual a true");
+                    pantallaJuego.nick = nick;
+                    pantallaJuego.setSck(sck);        
+                } else if (partesMensaje[1].equals("NOK")){
+                    resultLogin.setText("Error al hacer login");
+                }
+                break;
+
+            case "REGISTRO":
+                if (partesMensaje[1].equals("OK")) {
+                    resultRegistro.setText("Registro completado con éxito.\n Haz login"
+                            + "para acceder al juego");
+                } else if(partesMensaje[2].equals("EMAIL")) {
+                    resultRegistro.setText("Error, ese email ya se encuentra registrado.\n Prueba con uno diferente o login");
+                } else if(partesMensaje[2].equals("NICK")) {
+                    resultRegistro.setText("Nickname en uso");
+                } else if(partesMensaje[2].equals("PASSWORD")) {
+                    resultRegistro.setText("Tu contraseña deberá contener al menos un número, una mayúscula y 8 caracteres.");
+                }
+                
+                break;
+                
+            default:
+                System.out.println(" ");
+        }
+
+    }
+
+    public static String getNick() {
+        return nick;
+    }
+
+    public static Socket getSck() {
+        return sck;
+    }
+}

@@ -3,46 +3,64 @@ package Cliente_2;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-
+/**
+ * Clase Cliente que desarrolla toda la lógica de negocio desde el lado del cliente
+ * @author alvaro
+ * @version 2.0
+ * @since 01/04/2021
+ */
 public class Cliente2 extends Thread {
 
     public static Socket sck;
-    public static String email, nick, password;
+    public static String email;
+    public static String nick;
+    public static String password;
     public int partidasJugadas, partidasGanadas, partidasPerdidas;
-    boolean login = false;
-    public static Cliente2 c = new Cliente2();
+    public static boolean login = false;
     
+    /**
+     * Método principal, Primero establece una conexión con el servidor mediante el 'START'
+     * acto seguido invoca a run()
+     * @param args
+     * @throws Exception 
+     */
     public static void main (String args[]) throws Exception{
         
-        //Cliente c = new Cliente();
+        Cliente2 c = new Cliente2();
         c.sck = new Socket ("127.0.0.1", 5666);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
-        c.start(); // Sigue funcionando...
-        
-        
-        String inicio = nick + "#START# ";
-        c.sck.getOutputStream().write(inicio.getBytes());
+        c.start();
+ 
+        //Inicializo conexión con el servidor
+        String inicio = getNick() + "#START# ";
+        c.getSck().getOutputStream().write(inicio.getBytes());
         System.out.println("Envio: " + inicio);
+        
+        //Inicializa la interfaz
+        //pantallaLogin.main(null);
+        
         
         BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
         
         while (true){
             System.out.println("Mensaje: ");
             String elMensaje = br.readLine();
-            elMensaje = nick + "#" + elMensaje;
+            elMensaje = getNick() + "#" + elMensaje;
             
             //Lo que envía el cliente
-            c.sck.getOutputStream().write(elMensaje.getBytes());
+            c.getSck().getOutputStream().write(elMensaje.getBytes());
             
             System.out.println("\t\t\tEnviando mensaje...");
         }
         
     }
     
-    @Override
+    /**
+     * @Override
+     */
     public void run() {
         try {
-            InputStream is = sck.getInputStream();
+            InputStream is = getSck().getInputStream();
             byte[] buffer = new byte[1024];
             ByteArrayOutputStream baos = null;
             int nb;
@@ -63,21 +81,23 @@ public class Cliente2 extends Thread {
         }
     }
     
-    public static boolean hacerLogin (String email, String password) throws IOException {
-        boolean acceso = false;
-        byte[] buffer = new byte[1024];
-        
-        Cliente2 c = new Cliente2();
-        c.sck = new Socket ("127.0.0.1", 5665);
-        
-        String mensaje = "LOGIN" + "#" + email + "#" + password + "#";
-        c.sck.getOutputStream().write(mensaje.getBytes());
-        
-        //
-        return acceso;
+    /**
+     * Método que se encarga de hacer login del usuario
+     * @param email
+     * @param password
+     * @throws IOException 
+     */
+    public static void hacerLogin (String email, String password) throws IOException {
+        String mensaje = nick + "#LOGIN" + "#" + email + "#" + password + "#";
+        sck.getOutputStream().write(mensaje.getBytes());
     }
     
-    
+    /**
+     * Método que genera un ID aleatorio entre 0 y 50000 que se utiliza justo al comienzo
+     * de la ejecución del programa cuando todavía el cliente no está logeado o registrado y el 
+     * servidor tiene que tener alguna forma de localizarlo
+     * @return id en String
+     */
     public static String generarRandomID () {
         Random rand = new Random();
         int RandId = rand.nextInt(50000);
@@ -85,6 +105,12 @@ public class Cliente2 extends Thread {
         return id;
     }
     
+    /**
+     * Método que recibe el mensaje del servidor y lo gestiona ya sea la respuesta correcta
+     * o incorrecta del login, que le llegue un reto al usuario o que tiene que mover una ficha
+     * @param mensaje
+     * @throws IOException 
+     */
     public static void gestorRespuestas (String mensaje) throws IOException {     //  "#LOGIN#OK#"  + nick  + "#"; 
         String [] partesMensaje = mensaje.split("#");
         Scanner sc = new Scanner(System.in); 
@@ -93,6 +119,7 @@ public class Cliente2 extends Thread {
             case "LOGIN":
                 if (partesMensaje[1].equals("OK")) {
                     nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
+                    login = true;
                 }                             
                 break;
                 
@@ -112,12 +139,29 @@ public class Cliente2 extends Thread {
                     System.out.println("El usuario " + nombreUser + " NO aceptó tu reto.");
                 }
                 
-                break;    
+                break;
                 
             default:
                 System.out.println(" ");
         }
         
+    }
+    
+
+    /**
+     * Retorna el socket
+     * @return sck (socket)
+     */
+    public static Socket getSck() {
+        return sck;
+    }
+
+    /**
+     * Retorna el Nick del cliente/usuario
+     * @return nick
+     */
+    public static String getNick() {
+        return nick;
     }
     
     

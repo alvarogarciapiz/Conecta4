@@ -23,7 +23,7 @@ public class ServidorDifusion implements Runnable {
     public static int cont = 0;
 
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5666);
+        servidor = new ServerSocket(5665);
         t = new Thread(this);
         t.start();
     }
@@ -83,7 +83,7 @@ public class ServidorDifusion implements Runnable {
                 int posicionCliente = buscarCliente(partesmensaje[0]);
                 ClienteDifusion user = listaUsuarios.get(posicionCliente);
 
-                respuesta = "#START#OK#";
+                respuesta = "START#OK#";
                 user.sendMessage(respuesta.getBytes());
             } else {
                 int posicionCliente = buscarCliente(partesmensaje[0]);
@@ -94,23 +94,23 @@ public class ServidorDifusion implements Runnable {
 
                     case "REGISTRO": // #NICK#REGISTRO#EMAIL#NICK#PASSWORD# ----------------------------------    
                         if (partesmensaje.length != 5) {
-                            respuesta = "#REGISTRO#NOK#";
+                            respuesta = "REGISTRO#NOK#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (Ficheros.Ficheros.comprobarEmailRepetido(partesmensaje[2]) == true) {
-                            respuesta = "#REGISTRO#NOK#EMAIL#";
+                            respuesta = "REGISTRO#NOK#EMAIL#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (Ficheros.Ficheros.comprobarUsernameRepetido(partesmensaje[3]) == true) {
-                            respuesta = "#REGISTRO#NOK#NICK#";
+                            respuesta = "REGISTRO#NOK#NICK#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (RegistroyLogin.Registro.comprobarPassword(partesmensaje[4]) == true) {
-                            respuesta = "#REGISTRO#NOK#PASSWORD#";
+                            respuesta = "REGISTRO#NOK#PASSWORD#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (error == false) {
-                            respuesta = "#REGISTRO#OK#";
+                            respuesta = "REGISTRO#OK#";
                             RegistroyLogin.Registro.registrarNuevoUsuario(partesmensaje[2], partesmensaje[3], partesmensaje[4]);
                             user.sendMessage(respuesta.getBytes());
                         }
@@ -118,7 +118,7 @@ public class ServidorDifusion implements Runnable {
 
                     case "LOGIN": // #NICK#LOGIN#EMAIL#PASSWORD# -----------------------------------------------   
                         if (partesmensaje.length != 4) {
-                            respuesta = "#LOGIN#NOK#";
+                            respuesta = "LOGIN#NOK#";
                             user.sendMessage(respuesta.getBytes());
                             
                         } else if (RegistroyLogin.login.loginUsuario(partesmensaje[2], partesmensaje[3]) == true) {
@@ -133,7 +133,7 @@ public class ServidorDifusion implements Runnable {
                             user.sendMessage(respuesta.getBytes());
 
                         } else {
-                            respuesta = "#LOGIN#NOK#";
+                            respuesta = "LOGIN#NOK#";
                             user.sendMessage(respuesta.getBytes());
                         }
                         // --> Al hacer login activo los campos en clienteDifusion
@@ -216,6 +216,10 @@ public class ServidorDifusion implements Runnable {
 
                     case "RANKING":
                         respuesta = Partidas.Ranking.obtenerRanking();
+                        user.sendMessage(respuesta.getBytes());
+                        break;
+                    case "PRUEBA":
+                        respuesta = "HOLA";
                         user.sendMessage(respuesta.getBytes());
                         break;
                         
