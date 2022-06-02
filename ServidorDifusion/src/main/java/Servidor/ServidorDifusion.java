@@ -72,6 +72,7 @@ public class ServidorDifusion implements Runnable {
         try {
 
             String msg = new String(mensaje);
+            System.out.println("RECIBO: " + msg);
             String[] partesmensaje = msg.split("#");
             String respuesta;
             Boolean error = false;
@@ -218,8 +219,19 @@ public class ServidorDifusion implements Runnable {
                         respuesta = "RANKING" + "#" + Partidas.Ranking.obtenerRanking();
                         user.sendMessage(respuesta.getBytes());
                         break;
-                    case "PRUEBA":
-                        respuesta = "HOLA";
+                    case "JUGAPER":
+                        respuesta = "JUGAPER#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasJugadas(partesmensaje[0]) + "#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasGanadas(partesmensaje[0]) + "#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasPerdidas(partesmensaje[0]) + "#";
+                        user.sendMessage(respuesta.getBytes());
+                        break;
+                    
+                    case "JUGAPERival":
+                        respuesta = "JUGAPERival#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasJugadas(partesmensaje[2]) + "#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasGanadas(partesmensaje[2]) + "#";
+                        respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasPerdidas(partesmensaje[2]) + "#";
                         user.sendMessage(respuesta.getBytes());
                         break;
                         

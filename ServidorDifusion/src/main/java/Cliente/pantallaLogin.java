@@ -371,6 +371,7 @@ public static javax.swing.JLabel aa;
                 String mensajeRecibido = new String(baos.toByteArray());
                 System.out.println("\tRecibido. > " + mensajeRecibido);
                 gestorRespuestas(mensajeRecibido);
+                pantallaJuego.gestorRespuestas2(mensajeRecibido);
             }
         } catch (Exception ex) {
 
@@ -420,7 +421,6 @@ public static javax.swing.JLabel aa;
                     nick = partesMensaje[2]; //De esta manera actualizamos el nick del lado del cliente
                     resultLogin.setText("Login correcto, haz clic abajo para acceder al juego");
                     login = true;
-                    System.out.println("Login es igual a true");
                     pantallaJuego.nick = nick;
                     pantallaJuego.setSck(sck);        
                 } else if (partesMensaje[1].equals("NOK")){
