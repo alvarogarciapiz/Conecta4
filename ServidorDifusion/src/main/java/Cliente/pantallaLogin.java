@@ -309,7 +309,7 @@ public class pantallaLogin extends javax.swing.JFrame implements Runnable {
     public static void main(String args[]) throws IOException {
 
         pantallaLogin c = new pantallaLogin();
-        c.sck = new Socket("127.0.0.1", 5665);
+        c.sck = new Socket("127.0.0.1", 5666);
         c.nick = generarRandomID(); //Hasta que no se logee el nick será un identificador
         Thread t1 = new Thread(c);
         t1.start();

@@ -23,7 +23,7 @@ public class ServidorDifusion implements Runnable {
     public static int cont = 0;
 
     public ServidorDifusion() throws Exception {
-        servidor = new ServerSocket(5665);
+        servidor = new ServerSocket(5666);
         t = new Thread(this);
         t.start();
     }
@@ -141,15 +141,15 @@ public class ServidorDifusion implements Runnable {
 
                         break;
 
-                    case "REDIFUSION": // Ejemplo de redifusión (ENVIAR A TODOS)
-
-                        for (ClienteDifusion unCliente : listaUsuarios) {
-                            String julio = "MENSAJE";
-                            mensaje = julio.getBytes();
-                            unCliente.sendMessage(mensaje);
-                        }
-
-                        break;
+//                    case "REDIFUSION": // Ejemplo de redifusión (ENVIAR A TODOS)
+//
+//                        for (ClienteDifusion unCliente : listaUsuarios) {
+//                            String julio = "MENSAJE";
+//                            mensaje = julio.getBytes();
+//                            unCliente.sendMessage(mensaje);
+//                        }
+//
+//                        break;
 
                     case "DISPONIBLES": //Se devuelven todos los usuarios disponibles
                         respuesta = "DISPONIBLES#";
@@ -176,16 +176,17 @@ public class ServidorDifusion implements Runnable {
                     case "RESPUESTARETO": //nickOrigen#RESPUESTARETO#SI/NO#nickDestino#
                         int posicionDest = buscarCliente(partesmensaje[3]);
                         user = listaUsuarios.get(posicionDest);
+                        ClienteDifusion user2 = listaUsuarios.get(buscarCliente(partesmensaje[0]));
 
                         if (partesmensaje[2].equals("NO")) { //No se comienza la partida
-                            respuesta = "PARTIDA#NO#" + partesmensaje[3] + "#";
+                            respuesta = "PARTIDA#NO#" + partesmensaje[3] + "#" + partesmensaje[0] + "#";
                             user.sendMessage(respuesta.getBytes());
 
                         } else if (partesmensaje[2].equals("SI")) { //Se comienza la partida
-                            respuesta = "PARTIDA#SI#" + partesmensaje[3] + "#";
+                            respuesta = "PARTIDA#SI#" + partesmensaje[3] + "#" + partesmensaje[0] + "#";
                             user.sendMessage(respuesta.getBytes());
 
-                            registrarPartida(partesmensaje[0], partesmensaje[3]);
+                            registrarPartida(partesmensaje[0], partesmensaje[3], user, user2);
                         }
 
                         break;
@@ -196,7 +197,7 @@ public class ServidorDifusion implements Runnable {
                         Partida p = buscarPartida(partesmensaje[2]);
                         
                         if (p.turno.equals("null")){
-                            respuesta = "ERROR#FINPARTIDA#";
+                            respuesta = "ERROR#FINPARTIDA#" + p.ganador + "#";
                             user.sendMessage(respuesta.getBytes());
                         } else if (comprobarTurno(p, partesmensaje[0]) == false) {
                             //Error: no es su turno
@@ -209,8 +210,9 @@ public class ServidorDifusion implements Runnable {
                             user.sendMessage(respuesta.getBytes());
                             
                         } else {
-                            colocarFicha(partesmensaje[2], partesmensaje[3], partesmensaje[0]);
-                            respuesta = "FICHA#EXITO#";
+                            colocarFicha(partesmensaje[2], partesmensaje[3], partesmensaje[0]);                            
+                            int fila = determinarFila(p, Integer.parseInt(partesmensaje[3]));
+                            respuesta = "FICHA#EXITO#" + fila + "#" + partesmensaje[3] + "#";
                             user.sendMessage(respuesta.getBytes());
                         }
                         break;
@@ -232,6 +234,11 @@ public class ServidorDifusion implements Runnable {
                         respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasJugadas(partesmensaje[2]) + "#";
                         respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasGanadas(partesmensaje[2]) + "#";
                         respuesta = respuesta + Ficheros.Ficheros.obtenerPartidasPerdidas(partesmensaje[2]) + "#";
+                        user.sendMessage(respuesta.getBytes());
+                        break;
+                    
+                    case "PINTARFICHARIVAL":
+                        respuesta = "PINTARFICHA#" + partesmensaje[2] + "#" + partesmensaje[3] + "#";
                         user.sendMessage(respuesta.getBytes());
                         break;
                         
@@ -293,7 +300,7 @@ public class ServidorDifusion implements Runnable {
      * @param usuario1
      * @param usuario2 
      */
-    public static void registrarPartida(String usuario1, String usuario2) {
+    public static void registrarPartida(String usuario1, String usuario2, ClienteDifusion user1, ClienteDifusion user2) throws Exception {
         Partida p1 = new Partida();
         p1.setID(Partida.solicitarIDPartida());
         p1.usuario1 = usuario1;
@@ -303,6 +310,10 @@ public class ServidorDifusion implements Runnable {
 
         // ¿? FicherosPartidas.nuevaPartida(usuario1, usuario2, "null", p1.getID());
         listaPartidas.add(p1);
+        
+        String mensaje = "IDPARTIDA#" + p1.getID() + "#";
+        user1.sendMessage(mensaje.getBytes());
+        user2.sendMessage(mensaje.getBytes());
     }
 
     /**
@@ -345,15 +356,13 @@ public class ServidorDifusion implements Runnable {
      * @param movCOL, la Columna
      * @param user, el USuario
      */
-    public static void colocarFicha(String idPartida, String movCOL, String user) {
+    public static void colocarFicha(String idPartida, String movCOL, String user) throws Exception {
         Partida p = buscarPartida(idPartida);
 
         int col = Integer.parseInt(movCOL);
         int fil = determinarFila(p, col);
-
   
-        p.tablero.posiciones[fil][col] = user.substring(0,2);
-        
+        p.tablero.posiciones[fil][col] = user;
         
         //Actualizamos el turno al otro usuario
         if (p.getTurno().equals(p.getUsuario2())) {
@@ -361,18 +370,43 @@ public class ServidorDifusion implements Runnable {
         } else {
             p.setTurno(p.getUsuario2());
         }
-        
         String ganador = comprobarGanador(p);
         if (!ganador.equals("NO")) {
             System.out.println("EL GANADOR ES: " + ganador);
             p.setGanador(ganador);
             p.turno = "null"; //El turno=null es un indicador qu ela partida está finalizada
+            
             //Se registra la partida en el fichero
             FicherosPartidas.registrarPartida(p);
-            //Cerrar la partida
+            
+            //Se comunica el ganador
+            if (p.getUsuario1().equals(ganador)) {
+                comunicarGanador(ganador, p.getUsuario2()); 
+            } else {
+                comunicarGanador(ganador, p.getUsuario1());
+            }  
         }
         
         imprimirTablero(p);
+    }
+    
+    
+    /**
+     * Método encargado de comunicar al ganador y al perdedor de la partida su resultado
+     * @param ganador
+     * @param perdedor
+     * @throws Exception 
+     */
+    public static void comunicarGanador (String ganador, String perdedor) throws Exception{
+        String respuesta = "GANADOR#" + ganador + "#";
+        int posCliente = buscarCliente(ganador);
+        ClienteDifusion usuario = listaUsuarios.get(posCliente);
+        usuario.sendMessage(respuesta.getBytes());
+        
+        //Se avisa al perdedor
+        posCliente = buscarCliente(perdedor);
+        usuario = listaUsuarios.get(posCliente);
+        usuario.sendMessage(respuesta.getBytes());  
     }
     
     /**
@@ -419,8 +453,7 @@ public class ServidorDifusion implements Runnable {
      * @return fila donde hay que colocar la ficha
      */
     public static int determinarFila (Partida p, int col){
-        int fila = 0;
-        
+        int fila = 0;   
         for (int i = 5; i >0; i--) {
             if (p.tablero.getPosiciones()[i][col].equals("0")) {
                 return i;
