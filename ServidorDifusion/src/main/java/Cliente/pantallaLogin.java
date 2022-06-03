@@ -276,6 +276,11 @@ public class pantallaLogin extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailLoginActionPerformed
 
+    /**
+     * Botón que cuando es clickado obtiene el contenido de los campos de registro y manda un mensaje 
+     * al servidor con ello
+     * @param evt 
+     */
     private void botonRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistroActionPerformed
 
         String passRegistroContent = passRegistro.getText();
@@ -290,6 +295,10 @@ public class pantallaLogin extends javax.swing.JFrame implements Runnable {
 
     }//GEN-LAST:event_botonRegistroActionPerformed
 
+    /**
+     * Método que cuando su botón el clickado manda los campos de login al servidor
+     * @param evt 
+     */
     private void accederJuegoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accederJuegoActionPerformed
         if (login==true) {
             try {
@@ -378,11 +387,24 @@ public static javax.swing.JLabel aa;
         }
     }
 
+    /**
+     * Método encargado de enviar el contenido del login al servidor
+     * @param email
+     * @param password
+     * @throws IOException 
+     */
     public static void hacerLogin(String email, String password) throws IOException {
         String mensaje = getNick() + "#LOGIN" + "#" + email + "#" + password + "#";
         sck.getOutputStream().write(mensaje.getBytes());
     }
     
+    /**
+     * Método encargado de enviar el contenido del registro al servidor
+     * @param email
+     * @param password
+     * @param nick
+     * @throws IOException 
+     */
     public static void hacerRegistro (String email, String password, String nick) throws IOException {
         String mensaje = getNick() + "#REGISTRO" + "#" + email + "#" + nick + "#" + password + "#";
         sck.getOutputStream().write(mensaje.getBytes());
@@ -448,10 +470,18 @@ public static javax.swing.JLabel aa;
 
     }
 
+    /**
+     * Método que retorna el nick del usuario
+     * @return 
+     */
     public static String getNick() {
         return nick;
     }
 
+    /**
+     * Método que establece el nick del usuario
+     * @return 
+     */
     public static Socket getSck() {
         return sck;
     }

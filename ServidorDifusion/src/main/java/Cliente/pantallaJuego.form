@@ -270,12 +270,22 @@
                                           <Component id="conectado4" max="32767" attributes="0"/>
                                           <Component id="conectado3" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="retar2" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="retar4" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="retar5" alignment="1" min="-2" max="-2" attributes="0"/>
-                                          <Component id="retar3" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="retar4" alignment="1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="retar5" alignment="1" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="retar2" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="retar3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                                   <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
@@ -314,11 +324,11 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                               <Component id="conectado1" min="-2" pref="151" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="retar1" min="-2" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                              <Component id="retar1" min="-2" pref="22" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
-                                      <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -384,18 +394,22 @@
                       <Component id="noConectado" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="retar3" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="conectado2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="retar2" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="conectado3" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="retar1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="conectado1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="retar4" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="conectado4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -405,7 +419,7 @@
                                   <Component id="retar5" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   <Component id="conectado5" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="18" max="32767" attributes="0"/>
                               <Component id="cargarJugadores" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel2" min="-2" pref="11" max="-2" attributes="0"/>
@@ -415,8 +429,8 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="retar1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="conectado1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="retar3" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                                  <Component id="conectado3" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -676,6 +690,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2694;"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retar2MouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="retar3">
       <Properties>
@@ -684,6 +701,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2694;"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retar3MouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="retar4">
       <Properties>
@@ -692,6 +712,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2694;"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retar4MouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="retar5">
       <Properties>
@@ -700,6 +723,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&#x2694;"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="retar5MouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cargarJugadores">
       <Properties>
