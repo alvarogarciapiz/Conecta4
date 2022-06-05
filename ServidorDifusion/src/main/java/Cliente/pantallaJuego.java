@@ -1,5 +1,6 @@
 package Cliente;
 
+import java.awt.Font;
 import java.net.*;
 import java.io.*;
 import java.util.*;
@@ -13,7 +14,7 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     public static int pJugadas, pGanadas, pPerdidas, pJugadasRival, pGanadasRival, pPerdidasRival;
     public static boolean retoActivo;
     public static int IDPartida;
-    
+
     /**
      * Constructor de pantallaJuego que también carga el ranking
      */
@@ -23,7 +24,8 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
         this.setTitle("Conecta 4");
         vsNick.setText(nick);
         retoActivo = false;
-        
+        ayuda.setVisible(false);
+
         String mensaje = nick + "#" + "RANKING" + "#";
         try {
             sck.getOutputStream().write(mensaje.getBytes());
@@ -114,6 +116,9 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablero = new javax.swing.JTable();
         mensajeGanador = new javax.swing.JLabel();
+        ayuda = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
         jDialog1.getContentPane().setLayout(jDialog1Layout);
@@ -452,6 +457,22 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
         mensajeGanador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         mensajeGanador.setText("   ");
 
+        ayuda.setIcon(new javax.swing.ImageIcon("/Users/alvaro/NetBeansProjects/ServidorDifusion/reglas.png")); // NOI18N
+
+        jButton2.setText("Ver ayuda");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Ocultar Ayuda");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -459,21 +480,21 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(308, 308, 308)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(col0, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(30, 30, 30)
                         .addComponent(col1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addGap(29, 29, 29)
                         .addComponent(col2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
+                        .addGap(26, 26, 26)
                         .addComponent(col3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(col4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
+                        .addComponent(col4, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
                         .addComponent(col5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(28, 28, 28)
                         .addComponent(col6, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
+                        .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -486,16 +507,15 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(33, 33, 33)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(cargarStatsRival, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(vsNickRival, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jLabel11)
-                                                .addGap(75, 75, 75))
                                             .addComponent(mensajeErrorRival, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(errorRetar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jSeparator5, javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jSeparator6)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(vsNickRival, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jLabel11)
+                                                .addGap(75, 75, 75))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addGroup(layout.createSequentialGroup()
@@ -509,7 +529,8 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                                     .addGroup(layout.createSequentialGroup()
                                                         .addComponent(jLabel18)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(partidasJugadasRival, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                        .addComponent(partidasJugadasRival, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addComponent(cargarStatsRival, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                 .addGap(0, 0, Short.MAX_VALUE)))))
                                 .addGap(48, 48, 48))
                             .addGroup(layout.createSequentialGroup()
@@ -517,35 +538,46 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(denegarReto)
                                     .addComponent(aceptarReto))
-                                .addGap(20, 20, 20)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 428, Short.MAX_VALUE)
                             .addComponent(mensajeError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(mensajeGanador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(mensajeGanador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(ayuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(jLabel12))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(jLabel12))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(partidasJugadasUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(partidasGanadasUser, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel15)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(partidasPerdidasUser, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(cargarStats, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addComponent(vsNick, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addComponent(vsNick, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(partidasJugadasUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(partidasGanadasUser, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(partidasPerdidasUser, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cargarStats, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(44, 44, 44)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -665,7 +697,6 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(retar1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(conectado1)))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(41, 41, 41)
@@ -676,7 +707,7 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(retar5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(conectado5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                                 .addComponent(cargarJugadores)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -693,8 +724,11 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                             .addComponent(jSeparator1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(258, 258, 258)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton3)
+                                        .addGap(200, 200, 200)
                                         .addComponent(jLabel12)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(vsNick)
@@ -714,6 +748,8 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                         .addComponent(cargarStats)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(ayuda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(mensajeGanador, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(33, 33, 33)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -761,14 +797,14 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                                 .addComponent(denegarReto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(mensajeError, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(70, 70, 70))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(errorRetar)
                                         .addGap(8, 8, 8)
                                         .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(88, 88, 88))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(mensajeError, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(70, 70, 70)))))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addContainerGap())))
         );
 
@@ -776,9 +812,10 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Método asociado al botón de cargar el ranking que cuando es presionado manda la solicitud
-     * al servidor
-     * @param evt 
+     * Método asociado al botón de cargar el ranking que cuando es presionado
+     * manda la solicitud al servidor
+     *
+     * @param evt
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String mensaje = nick + "#" + "RANKING" + "#";
@@ -790,9 +827,10 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
-     * Método asociado al botón de cargar jugadores conectados, al ser presionado 
-     * envía al servidor una petición para cargar los jugadores
-     * @param evt 
+     * Método asociado al botón de cargar jugadores conectados, al ser
+     * presionado envía al servidor una petición para cargar los jugadores
+     *
+     * @param evt
      */
     private void cargarJugadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarJugadoresActionPerformed
         String mensaje = nick + "#" + "DISPONIBLES" + "#";
@@ -802,11 +840,12 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cargarJugadoresActionPerformed
-/**
- * Método asociado al botón de cargar las stats del jugador, al ser presionado
- * envía la solicitud al servidor con el nick asociado
- * @param evt 
- */
+    /**
+     * Método asociado al botón de cargar las stats del jugador, al ser
+     * presionado envía la solicitud al servidor con el nick asociado
+     *
+     * @param evt
+     */
     private void cargarStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarStatsActionPerformed
         String mensaje = nick + "#JUGAPER#";
         try {
@@ -815,51 +854,55 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_cargarStatsActionPerformed
-/**
- * Método asociado al botón de cargar los stats del rival, al ser presionado envía
- * la solcitud al servidor con el nick del rival
- * @param evt 
- */
-    private void cargarStatsRivalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarStatsRivalActionPerformed
-        if (nickRival==null) {
-            mensajeErrorRival.setText("Comienza una partida para verlo");
-        } else{
-        try {
-            String mensaje = nick + "#JUGAPERival#" + nickRival + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-        } catch (IOException ex) {
-            Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }
-    }//GEN-LAST:event_cargarStatsRivalActionPerformed
-
     /**
-     * Método asociado al botón de retar que cuando es presionado obtiene
-     * el usuario asociado y envía el reto al servidor para que éste se lo 
-     * transfiera al otro usuario
-     * @param evt 
+     * Método asociado al botón de cargar los stats del rival, al ser presionado
+     * envía la solcitud al servidor con el nick del rival
+     *
+     * @param evt
      */
-    private void retar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar1MouseClicked
-        
-        if (conectado1.getText().equals(" ")) {
-            noConectado.setText("Usuario sin conexion");
+    private void cargarStatsRivalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarStatsRivalActionPerformed
+        if (nickRival == null) {
+            mensajeErrorRival.setText("Comienza una partida para verlo");
         } else {
-        String nickRV = conectado1.getText();
             try {
-            String mensaje = nick + "#RETAR#" + nickRV + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-            noConectado.setText(nickRV + " ha sido retado");
+                String mensaje = nick + "#JUGAPERival#" + nickRival + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+    }//GEN-LAST:event_cargarStatsRivalActionPerformed
+
+    /**
+     * Método asociado al botón de retar que cuando es presionado obtiene el
+     * usuario asociado y envía el reto al servidor para que éste se lo
+     * transfiera al otro usuario
+     *
+     * @param evt
+     */
+    private void retar1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar1MouseClicked
+
+        if (conectado1.getText().equals(" ")) {
+            noConectado.setText("Usuario sin conexion");
+        } else {
+            String nickRV = conectado1.getText();
+            try {
+                String mensaje = nick + "#RETAR#" + nickRV + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
+                noConectado.setText(nickRV + " ha sido retado");
+            } catch (IOException ex) {
+                Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }//GEN-LAST:event_retar1MouseClicked
 
     /**
-     * Método asociado al botón de aceptar reto, cuando es presionado comprueba si hay
-     * una solicitud de reto y de haberla envía al servidor la respuesta de aceptación
-     * @param evt 
+     * Método asociado al botón de aceptar reto, cuando es presionado comprueba
+     * si hay una solicitud de reto y de haberla envía al servidor la respuesta
+     * de aceptación
+     *
+     * @param evt
      */
     private void aceptarRetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarRetoActionPerformed
         if (leRetan.getText().equals("Sin retos pendientes")) {
@@ -880,9 +923,11 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_aceptarRetoActionPerformed
 
     /**
-     * Método asociado al botón de denegar reto, cuando es presionado comprueba si hay
-     * una solicitud de reto y de haberla envía al servidor la respuesta de denegación
-     * @param evt 
+     * Método asociado al botón de denegar reto, cuando es presionado comprueba
+     * si hay una solicitud de reto y de haberla envía al servidor la respuesta
+     * de denegación
+     *
+     * @param evt
      */
     private void denegarRetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_denegarRetoActionPerformed
         if (leRetan.getText().equals("Sin retos pendientes")) {
@@ -901,9 +946,11 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_denegarRetoActionPerformed
 
     /**
-     * Método asociado al botón de la columna 0 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 0 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col0ActionPerformed
         if (retoActivo == false) {
@@ -915,14 +962,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col0ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 1 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 1 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col1ActionPerformed
         if (retoActivo == false) {
@@ -934,14 +983,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col1ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 2 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 2 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col2ActionPerformed
         if (retoActivo == false) {
@@ -953,14 +1004,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col2ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 3 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 3 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col3ActionPerformed
         if (retoActivo == false) {
@@ -972,14 +1025,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col3ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 4 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 4 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col4ActionPerformed
         if (retoActivo == false) {
@@ -991,14 +1046,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col4ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 5 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 5 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col5ActionPerformed
         if (retoActivo == false) {
@@ -1010,14 +1067,16 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col5ActionPerformed
 
     /**
-     * Método asociado al botón de la columna 6 que cuando es presionado comprueba
-     * si hay un reto activo y de haberlo manda la solicitud de ficha al servidor
-     * @param evt 
+     * Método asociado al botón de la columna 6 que cuando es presionado
+     * comprueba si hay un reto activo y de haberlo manda la solicitud de ficha
+     * al servidor
+     *
+     * @param evt
      */
     private void col6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_col6ActionPerformed
         if (retoActivo == false) {
@@ -1029,25 +1088,26 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
     }//GEN-LAST:event_col6ActionPerformed
 
     /**
-     * Método asociado al botón de retar que cuando es presionado obtiene
-     * el usuario asociado y envía el reto al servidor para que éste se lo 
+     * Método asociado al botón de retar que cuando es presionado obtiene el
+     * usuario asociado y envía el reto al servidor para que éste se lo
      * transfiera al otro usuario
-     * @param evt 
+     *
+     * @param evt
      */
     private void retar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar3MouseClicked
         if (conectado1.getText().equals(" ")) {
             noConectado.setText("Usuario sin conexion");
         } else {
-        String nickRV = conectado3.getText();
+            String nickRV = conectado3.getText();
             try {
-            String mensaje = nick + "#RETAR#" + nickRV + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-            noConectado.setText(nickRV + " ha sido retado");
+                String mensaje = nick + "#RETAR#" + nickRV + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
+                noConectado.setText(nickRV + " ha sido retado");
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1055,20 +1115,21 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_retar3MouseClicked
 
     /**
-     * Método asociado al botón de retar que cuando es presionado obtiene
-     * el usuario asociado y envía el reto al servidor para que éste se lo 
+     * Método asociado al botón de retar que cuando es presionado obtiene el
+     * usuario asociado y envía el reto al servidor para que éste se lo
      * transfiera al otro usuario
-     * @param evt 
+     *
+     * @param evt
      */
     private void retar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar2MouseClicked
         if (conectado1.getText().equals(" ")) {
             noConectado.setText("Usuario sin conexion");
         } else {
-        String nickRV = conectado2.getText();
+            String nickRV = conectado2.getText();
             try {
-            String mensaje = nick + "#RETAR#" + nickRV + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-            noConectado.setText(nickRV + " ha sido retado");
+                String mensaje = nick + "#RETAR#" + nickRV + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
+                noConectado.setText(nickRV + " ha sido retado");
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1076,20 +1137,21 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_retar2MouseClicked
 
     /**
-     * Método asociado al botón de retar que cuando es presionado obtiene
-     * el usuario asociado y envía el reto al servidor para que éste se lo 
+     * Método asociado al botón de retar que cuando es presionado obtiene el
+     * usuario asociado y envía el reto al servidor para que éste se lo
      * transfiera al otro usuario
-     * @param evt 
+     *
+     * @param evt
      */
     private void retar4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar4MouseClicked
         if (conectado1.getText().equals(" ")) {
             noConectado.setText("Usuario sin conexion");
         } else {
-        String nickRV = conectado4.getText();
+            String nickRV = conectado4.getText();
             try {
-            String mensaje = nick + "#RETAR#" + nickRV + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-            noConectado.setText(nickRV + " ha sido retado");
+                String mensaje = nick + "#RETAR#" + nickRV + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
+                noConectado.setText(nickRV + " ha sido retado");
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1097,33 +1159,43 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_retar4MouseClicked
 
     /**
-     * Método asociado al botón de retar que cuando es presionado obtiene
-     * el usuario asociado y envía el reto al servidor para que éste se lo 
+     * Método asociado al botón de retar que cuando es presionado obtiene el
+     * usuario asociado y envía el reto al servidor para que éste se lo
      * transfiera al otro usuario
-     * @param evt 
+     *
+     * @param evt
      */
     private void retar5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retar5MouseClicked
         if (conectado1.getText().equals(" ")) {
             noConectado.setText("Usuario sin conexion");
         } else {
-        String nickRV = conectado5.getText();
+            String nickRV = conectado5.getText();
             try {
-            String mensaje = nick + "#RETAR#" + nickRV + "#";
-            sck.getOutputStream().write(mensaje.getBytes());
-            noConectado.setText(nickRV + " ha sido retado");
+                String mensaje = nick + "#RETAR#" + nickRV + "#";
+                sck.getOutputStream().write(mensaje.getBytes());
+                noConectado.setText(nickRV + " ha sido retado");
             } catch (IOException ex) {
                 Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_retar5MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ayuda.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        ayuda.setVisible(false);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * Mñetodo principal desde el que se invoca a run()
+     *
      * @param args
-     * @throws IOException 
+     * @throws IOException
      */
     public static void main(String args[]) throws IOException {
-        
+
         pantallaJuego j = new pantallaJuego();
         Thread t1 = new Thread(j);
         t1.start();
@@ -1135,7 +1207,8 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     }
 
     /**
-     * Método sobreescrito run que escucha continuamente lo que el servidor le envía
+     * Método sobreescrito run que escucha continuamente lo que el servidor le
+     * envía
      */
     @Override
     public void run() {
@@ -1163,6 +1236,7 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aceptarReto;
+    private javax.swing.JLabel ayuda;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton cargarJugadores;
     private javax.swing.JButton cargarStats;
@@ -1183,6 +1257,8 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JLabel errorRetar;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
     private javax.swing.JDialog jDialog3;
@@ -1241,10 +1317,11 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel vsNick;
     private javax.swing.JLabel vsNickRival;
     // End of variables declaration//GEN-END:variables
-    
+
     /**
      * Método que establece el Socket
-     * @return 
+     *
+     * @return
      */
     public static Socket getSck() {
         return sck;
@@ -1252,17 +1329,18 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
 
     /**
      * Establece el Socket
-     * @param aSck 
+     *
+     * @param aSck
      */
     public static void setSck(Socket aSck) {
         sck = aSck;
     }
-    
-    
+
     /**
-     * Método encargado de limpiar el tablero (poner todo a '') cuando finalice una partida
+     * Método encargado de limpiar el tablero (poner todo a '') cuando finalice
+     * una partida
      */
-    public static void limpiarTablero(){
+    public static void limpiarTablero() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 7; j++) {
                 tablero.setValueAt(" ", i, j);
@@ -1281,7 +1359,7 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
     public static void gestorRespuestas2(String mensaje) throws IOException {
         String[] partesMensaje = mensaje.split("#");
         Scanner sc = new Scanner(System.in);
-        
+
         switch (partesMensaje[0]) {
             case "TERETAN":
                 leRetan.setText("Te desafía: ");
@@ -1302,88 +1380,113 @@ public class pantallaJuego extends javax.swing.JFrame implements Runnable {
                     retoActivo = false;
                 }
                 break;
-                
+
             case "RANKING":
-            top3.setText(partesMensaje[1]);
-            top1.setText(partesMensaje[2]);
-            top2.setText(partesMensaje[3]);
-            top4.setText(partesMensaje[4]);
-            top5.setText(partesMensaje[5]);
+                Font font = new Font("Helvetica Neue", Font.BOLD, 18);
+                top1.setText(partesMensaje[1]);
+                top2.setText(partesMensaje[2]);
+                top3.setText(partesMensaje[3]);
+                top4.setText(partesMensaje[4]);
+                top5.setText(partesMensaje[5]);
+
+                //Si el usuario se encuentra en el ranking se moestrará su perfil en negrita para destacarlo
+                if (partesMensaje[1].equals(nick)) {
+                    top1.setFont(font);
+                } else if (partesMensaje[2].equals(nick)) {
+                    top2.setFont(font);
+                } else if (partesMensaje[3].equals(nick)) {
+                    top3.setFont(font);
+                } else if (partesMensaje[4].equals(nick)) {
+                    top4.setFont(font);
+                } else if (partesMensaje[5].equals(nick)) {
+                    top5.setFont(font);
+                }
                 break;
-                
+
             case "DISPONIBLES":
-                if (partesMensaje.length<=1) {
+                if (partesMensaje.length <= 1) {
                     noConectado.setText("No hay jugadores conectados");
-                }else if(partesMensaje[1]!=null){
+                } else if (partesMensaje[1] != null) {
                     conectado1.setText(partesMensaje[1]);
                     noConectado.setText("  ");
-                } if(partesMensaje[2]!=null){
+                }
+                if (partesMensaje[2] != null) {
                     conectado2.setText(partesMensaje[2]);
-                } if(partesMensaje[3]!=null){
+                }
+                if (partesMensaje[3] != null) {
                     conectado3.setText(partesMensaje[3]);
-                } if(partesMensaje[4]!=null){
+                }
+                if (partesMensaje[4] != null) {
                     conectado4.setText(partesMensaje[4]);
-                } if(partesMensaje[5]!=null){
+                }
+                if (partesMensaje[5] != null) {
                     conectado5.setText(partesMensaje[5]);
                 }
                 break;
-            
+
             case "JUGAPER":
-                    partidasJugadasUser.setText(partesMensaje[1]);
-                    partidasGanadasUser.setText(partesMensaje[2]);
-                    partidasPerdidasUser.setText(partesMensaje[3]);                    
+                partidasJugadasUser.setText(partesMensaje[1]);
+                partidasGanadasUser.setText(partesMensaje[2]);
+                partidasPerdidasUser.setText(partesMensaje[3]);
                 break;
-            
+
             case "JUGAPERival":
-                    partidasJugadasRival.setText(partesMensaje[1]);
-                    partidasGanadasRival.setText(partesMensaje[2]);
-                    partidasPerdidasRival.setText(partesMensaje[3]);                    
+                partidasJugadasRival.setText(partesMensaje[1]);
+                partidasGanadasRival.setText(partesMensaje[2]);
+                partidasPerdidasRival.setText(partesMensaje[3]);
                 break;
-            
+
             case "ERROR":
                 if (partesMensaje[1].equals("FINPARTIDA")) {
-                    mensajeError.setText("¡FIN! La partida ya ha acabado, el ganador es: "  + partesMensaje[2]);
+                    mensajeError.setText("¡FIN! La partida ya ha acabado, el ganador es: " + partesMensaje[2]);
                     retoActivo = false;
-                } if (partesMensaje[1].equals("NOTURNO")) {
+                }
+                if (partesMensaje[1].equals("NOTURNO")) {
                     mensajeError.setText("¡No es tu turno! Espera a tu rival");
-                } if (partesMensaje[1].equals("COLUMNA")) {
+                }
+                if (partesMensaje[1].equals("COLUMNA")) {
                     mensajeError.setText("¡Columna llena! Selecciona otra diferente");
                 }
                 break;
-             
+
             case "FICHA":
                 if (partesMensaje[1].equals("EXITO")) {
                     mensajeError.setText("Ficha colocada con éxito, turno del rival");
                     int row = Integer.parseInt(partesMensaje[2]);
                     int column = Integer.parseInt(partesMensaje[3]);
                     tablero.setValueAt("X", row+1, column);
-                    
+
                     //Se avisa al rival para que pinte esa ficha en el tablero
-                    mensaje = nickRival + "#PINTARFICHARIVAL#" + row + "#" +  column + "#";
+                    mensaje = nickRival + "#PINTARFICHARIVAL#" + row + "#" + column + "#";
                     try {
                         sck.getOutputStream().write(mensaje.getBytes());
                     } catch (IOException ex) {
                         Logger.getLogger(pantallaJuego.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    }
+                }
                 break;
-            
-            case "PINTARFICHA":    
+
+            case "PINTARFICHA":
                 int row = Integer.parseInt(partesMensaje[1]);
                 int column = Integer.parseInt(partesMensaje[2]);
                 tablero.setValueAt("O", row+1, column);
                 break;
-                
+
             case "IDPARTIDA":
                 IDPartida = Integer.parseInt(partesMensaje[1]);
                 break;
-            
+
             case "GANADOR":
                 if (partesMensaje[1].equals(nick)) {
                     mensajeGanador.setText("¡Felicidades! Eres el ganador de la partida");
                 } else {
                     mensajeGanador.setText("¡Vaya! " + nickRival + " te ha ganado.");
                 }
+                break;
+
+            case "EMPATE":
+                mensajeGanador.setText("¡TABLAS! Tablero lleno, empate y reparto de puntos");
+                retoActivo = false;
                 break;
                 
             default:

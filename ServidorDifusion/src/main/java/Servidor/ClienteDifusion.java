@@ -80,7 +80,7 @@ public class ClienteDifusion extends Thread {
     } //-> Fin del run()
     
     public void sendMessage (byte[] mensaje) throws Exception {
-        System.out.println("Haciendo difusión: " + new String(mensaje));
+        //System.out.println("Haciendo difusión: " + new String(mensaje));
         getOs().write(mensaje);
     }
 

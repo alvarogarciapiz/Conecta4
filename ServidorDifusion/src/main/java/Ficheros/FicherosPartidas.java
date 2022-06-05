@@ -101,4 +101,46 @@ public class FicherosPartidas {
         return id;
     }
 
+    /**
+     * Método que devuleve la información asociada a una partida cuando es solicitada 
+     * por el servidor a nivel interno, devuelve el ID de la partida, el ganador y quien
+     * la ha jugado.
+     * @param id
+     * @return 
+     */
+    public static String infoPartida (String id) {
+        File archivo = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        String linea = "";
+        String info="";
+
+        try {
+            archivo = new File("datosPartidas.dat");
+            fr = new FileReader(archivo);
+            br = new BufferedReader(fr);
+
+            //Lectura del fichero
+            while ((linea = br.readLine()) != null) {
+                String linea2 = linea;
+                String[] parts = linea2.split("=");
+
+                if (parts[0].equals(id)) {
+                    info = "ID Partida : " + parts[0] + "\n" + parts[2] + " vs " + parts[3] + "\nGanador: " + parts[1];
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != fr) {
+                    fr.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return info;
+    }
 }
