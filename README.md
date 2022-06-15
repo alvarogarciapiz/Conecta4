@@ -56,7 +56,12 @@ como: no es tu turno, columna llena o si la partida ha finalizado se mostrará e
 - Servidor:
 
 El servidor recoge todas las peticiones de los clientes/usuarios, las gestiona y les ofrece la respuesta
-acorde. 
+acorde. Desde el propio servidor se pueden realizar peticiones desde la consola como: parar el funcionamiento, conocer información
+sobre una partida o un jugador o incluso ver el ranking al completo.
+
+## Ejecución
+Primero se debe ejecutar el servidor desde la clase 'Principal' y acto seguido la clase 'pantallaLogin' tantas veces como clientes se quieran conectados.
+
 ## Autores
 
 - [Álvaro García Pizarro](https://github.com/alvarogarciapiz)
